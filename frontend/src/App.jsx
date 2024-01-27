@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css';
 import {
   createBrowserRouter,
@@ -9,7 +8,12 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import SignIn from './pages/SignIn';
-import Navbar from './components/layouts/Navbar';
+import Products from './pages/Products';
+import Shops from './pages/Shops';
+import ShopDetails from './pages/ShopDetail';
+import ProductDetail from './pages/productDetail';
+
+
 
 
 function App() {
@@ -35,14 +39,28 @@ function App() {
       path: "/contact",
       element: <Contact/>,
     },
+    {
+      path: "/products",
+      element: <Products/>,
+    },
+    {
+      path: "/products/:productId",
+      element: <ProductDetail/>,
+    },
+    {
+      path: "/shops",
+      element: <Shops/>,
+    },
+    {
+      path: "/shops/:shopId",
+      element: <ShopDetails/>,
+    },
   ]);
-
+ 
   return (
-    <>
-      <Navbar/>
+    <div className='APP'>
       <RouterProvider router={router} />
-      <Footer/>
-    </>
+    </div>
   )
 }
 

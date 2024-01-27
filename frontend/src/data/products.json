@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "category": "Painting",
+    "name": "Sunset Serenity",
+    "artist": "John Smith",
+    "price": 200.00,
+    "description": "A breathtaking painting capturing the serenity of a colorful sunset over the ocean.",
+    "image": "/images/Cityscape_Reflections_handmade_painting.jpg",
+    "rating": 4.5,
+    "shopId": 1
+  },
+  {
+    "id": 2,
+    "category": "Wooden Craft",
+    "name": "Rustic Oak Coffee Table",
+    "artisan": "Emily Johnson",
+    "price": 300.00,
+    "description": "Handcrafted oak coffee table with a rustic finish, adding warmth to your living space.",
+    "image": "/images/Rustic_Oak_Coffee_Table.jpg",
+    "rating": 4.2,
+    "shopId": 3
+  },
+  {
+    "id": 3,
+    "category": "Metal Handcrafted",
+    "name": "Elegant Brass Candle Holder",
+    "artisan": "Daniel Rodriguez",
+    "price": 50.00,
+    "description": "An elegant brass candle holder, meticulously crafted to add a touch of sophistication to your home decor.",
+    "image": "/images/Elegant_Brass_Candle_Holder.jpg",
+    "rating": 4.8,
+    "shopId": 4
+  },
+  {
+    "id": 4,
+    "category": "Painting",
+    "name": "Cityscape Reflections",
+    "artist": "Sophia Lee",
+    "price": 180.00,
+    "description": "A captivating cityscape painting depicting the reflections of city lights on a calm river.",
+    "image": "/images/Cityscape_Reflections_handmade_painting.jpg",
+    "rating": 4.0,
+    "shopId": 2
+  },
+  {
+    "id": 5,
+    "category": "Wooden Craft",
+    "name": "Hand-carved Teak Bowl Set",
+    "artisan": "Michael Turner",
+    "price": 75.00,
+    "description": "Set of hand-carved teak bowls, perfect for serving and adding a touch of nature to your dining table.",
+    "image": "/images/Handcarved_Teak_Bowl_Set.jpg",
+    "rating": 4.7,
+    "shopId": 5
+  },
+  {
+    "id": 2,
+    "category": "Wooden Craft",
+    "name": "Rustic Oak Coffee Table",
+    "artisan": "Emily Johnson",
+    "price": 300.00,
+    "description": "Handcrafted oak coffee table with a rustic finish, adding warmth to your living space.",
+    "image": "/images/Rustic_Oak_Coffee_Table.jpg",
+    "rating": 4.2,
+    "shopId": 1
+  },
+  {
+    "id": 3,
+    "category": "Metal Handcrafted",
+    "name": "Elegant Brass Candle Holder",
+    "artisan": "Daniel Rodriguez",
+    "price": 50.00,
+    "description": "An elegant brass candle holder, meticulously crafted to add a touch of sophistication to your home decor.",
+    "image": "/images/Elegant_Brass_Candle_Holder.jpg",
+    "rating": 4.8,
+    "shopId": 2
+  },
+  {
+    "id": 4,
+    "category": "Painting",
+    "name": "Cityscape Reflections",
+    "artist": "Sophia Lee",
+    "price": 180.00,
+    "description": "A captivating cityscape painting depicting the reflections of city lights on a calm river.",
+    "image": "/images/Cityscape_Reflections_handmade_painting.jpg",
+    "rating": 4.0,
+    "shopId": 3
+  },
+  {
+    "id": 4,
+    "category": "Painting",
+    "name": "Cityscape Reflections",
+    "artist": "Sophia Lee",
+    "price": 180.00,
+    "description": "A captivating cityscape painting depicting the reflections of city lights on a calm river.",
+    "image": "/images/Cityscape_Reflections_handmade_painting.jpg",
+    "rating": 4.0,
+    "shopId": 4
+  }
+]

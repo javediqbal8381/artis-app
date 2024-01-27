@@ -1,0 +1,12 @@
+.nav_link{
+    cursor: pointer;
+    width: 100px;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.nav_link:hover{
+    color: brown;
+}
