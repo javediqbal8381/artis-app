@@ -6,8 +6,8 @@ export default {
   ],
   theme: {
     colors:{
-      'lb':'#b79c7d',
-      'blue': '#1fb6ff',
+      lb:'#b79c7d',
+      white: '#fff',
       db:'#a27745'
     },
     fontFamily: {
@@ -17,7 +17,8 @@ export default {
     fontSize:{
       'normal':'14px',
       'mid': '24px',
-      'xl':'62px'
+      veryLarge:'62px',
+      verySmall:"11px"
     },
     extend: {},
   },

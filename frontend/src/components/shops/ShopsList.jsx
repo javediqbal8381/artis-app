@@ -3,6 +3,7 @@ import React from 'react';
 import { BsGeoAlt, BsClock, BsStarFill } from 'react-icons/bs';
 import { shops } from '../../data/shops.json';
 import { useNavigate } from 'react-router-dom';
+import StartRatings from '../commen/StartRatings';
 
 const ShopsList = () => {
     const navigate = useNavigate()
@@ -32,7 +33,9 @@ const ShopsList = () => {
                         </p>
                         <div className="flex items-center mb-4">
                             <BsStarFill className="text-yellow-500 mr-1" />
-                            <span className="text-gray-700">{shop.rating}</span>
+                            <span className="text-gray-700">
+                                <StartRatings rating={shop.rating} />
+                            </span>
                         </div>
                         <p className="text-gray-700 mb-4">{shop.description}</p>
                         <a

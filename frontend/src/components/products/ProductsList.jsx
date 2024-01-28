@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import StartRatings from '../commen/StartRatings';
 
 const ProductList = ({products}) => {
-  console.log(products)
+  
   const navigate = useNavigate()
   const gotoProduct = (productId) => {
     navigate(`/products/${productId}`)
@@ -17,13 +18,15 @@ const ProductList = ({products}) => {
         >
           <img
             className="w-full h-48 object-cover"
-            src={product.image}
+            src={product.images[0]}
             alt={product.name}
           />
           <div className="px-6 py-4">
             <div className="font-bold text-mid min-h-[70px] mb-2">{product.name}</div>
             <p className="text-gray-700 text-base">{product.description}</p>
-            <div className="font-bold mt-2">Rating: {product.rating}</div>
+            <div className="font-bold mt-2">Rating: 
+            <StartRatings rating={product.rating}/>
+            </div>
             <p className="text-green-500 font-bold mt-2">${product.price.toFixed(2)}</p>
           </div>
         </div>

@@ -12,6 +12,9 @@ import Products from './pages/Products';
 import Shops from './pages/Shops';
 import ShopDetails from './pages/ShopDetail';
 import ProductDetail from './pages/productDetail';
+import CatagorizedProducts from './pages/catagorizedProducts';
+import Checkout from './pages/Checkout';
+import Cart from './pages/Cart';
 
 
 
@@ -48,12 +51,24 @@ function App() {
       element: <ProductDetail/>,
     },
     {
+      path: "/products/catagory/:catagory",
+      element: <CatagorizedProducts/>,
+    },
+    {
       path: "/shops",
       element: <Shops/>,
     },
     {
       path: "/shops/:shopId",
       element: <ShopDetails/>,
+    },    
+    {
+      path: "/checkout",
+      element: <Checkout/>,
+    },
+    {
+      path: "/cart",
+      element: <Cart/>,
     },
   ]);
  

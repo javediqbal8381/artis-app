@@ -4,21 +4,21 @@ import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-10">
+    <footer className="bg-gray-800  py-10">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold">YourLogo</div>
         <div className="flex space-x-4">
           <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-            <FaTwitter className="text-white" />
+            <FaTwitter className="" />
           </a>
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-            <FaFacebook className="text-white" />
+            <FaFacebook className="" />
           </a>
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-            <FaInstagram className="text-white" />
+            <FaInstagram className="" />
           </a>
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-            <FaLinkedin className="text-white" />
+            <FaLinkedin className="" />
           </a>
         </div>
       </div>
