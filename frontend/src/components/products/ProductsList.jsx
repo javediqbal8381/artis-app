@@ -12,9 +12,9 @@ const ProductList = ({products}) => {
     <div className="flex flex-wrap justify-center">
       {products.map((product) => (
         <div
-          key={product.id}
+          key={product._id}
           className="max-w-xs rounded overflow-hidden shadow-lg m-4 transform transition-transform hover:scale-105 cursor-pointer"
-          onClick={() => gotoProduct(product.id)}
+          onClick={() => gotoProduct(product._id)}
         >
           <img
             className="w-full h-48 object-cover"
@@ -27,7 +27,7 @@ const ProductList = ({products}) => {
             <div className="font-bold mt-2">Rating: 
             <StartRatings rating={product.rating}/>
             </div>
-            <p className="text-green-500 font-bold mt-2">${product.price.toFixed(2)}</p>
+            <p className="text-green-500 font-bold mt-2">{product.price.toFixed(2)} pkr</p>
           </div>
         </div>
       ))}

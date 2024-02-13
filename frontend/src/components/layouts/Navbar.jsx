@@ -2,12 +2,23 @@ import React from 'react'
 import { FaSearch, FaShoppingCart, FaAlignJustify } from "react-icons/fa";
 import './layouts.css'
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { addtoCart } from '../../redux/slices/cartSlice';
 
 
 const Navbar = () => {
-  const addedToCart = JSON.parse(document.cookie.split('=')[1]).map(i => Number(i));
+  const cartItems = useSelector(state => state.cart.cartItems)
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    const cartInCokkie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('cartItems='));
+    if (cartInCokkie) {
+      const cartItems = JSON.parse(cartInCokkie.split("=")[1])
+      cartItems.forEach(element => {
+        dispatch(addtoCart(element));
+      });
+    }
+  }, [])
   const gotoCart = () => {
     navigate('/cart')
   }
@@ -35,10 +46,10 @@ const Navbar = () => {
         <div onClick={gotoCart} className="relative cursor-pointer hover:scale-110">
           <FaShoppingCart />
           {
-            addedToCart.length > 0 &&
+            cartItems.length > 0 &&
             <span className="absolute -top-3 -right-3 text-white text-verySmall bg-db 
             rounded-full px-[6px] text-xs">
-              {addedToCart.length}
+              {cartItems.length}
             </span>
           }
         </div>

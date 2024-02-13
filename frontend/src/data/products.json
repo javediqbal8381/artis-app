@@ -1,197 +1,167 @@
 [
   {
-    "id": 1,
-    "category": "paintings",
-    "name": "Sunset Serenity",
-    "artist": "John Smith",
-    "price": 200.00,
-    "description": "A breathtaking painting capturing the serenity of a colorful sunset over the ocean.",
-    "images": [
-      "/images/Cityscape_Reflections_handmade_painting.jpg",
-      "/images/Cityscape_Reflections_handmade_painting.jpg",
-      "/images/Cityscape_Reflections_handmade_painting.jpg"
-    ],
-    "rating": 5,
-    "shopId": 1
-  },
-  {
-    "id": 2,
-    "category": "wooden",
-    "name": "Rustic Oak Coffee Table",
-    "artisan": "Emily Johnson",
-    "price": 300.00,
-    "description": "Handcrafted oak coffee table with a rustic finish, adding warmth to your living space.",
-    "images": [
-      "/images/Rustic_Oak_Coffee_Table.jpg",
-      "/images/Rustic_Oak_Coffee_Table.jpg",
-      "/images/Rustic_Oak_Coffee_Table.jpg"
-    ],
-    "rating": 4.2,
-    "shopId": 3
-  },
-  {
-    "id": 3,
     "category": "home decor",
     "name": "Elegant Brass Candle Holder",
     "artisan": "Daniel Rodriguez",
     "price": 50.00,
     "description": "An elegant brass candle holder, meticulously crafted to add a touch of sophistication to your home decor.",
     "images": [
-      "/images/Elegant_Brass_Candle_Holder.jpg",
-      "/images/Elegant_Brass_Candle_Holder.jpg",
-      "/images/Elegant_Brass_Candle_Holder.jpg"
+      "https://ideogram.ai/api/images/direct/tHxdFAY_QQe7nEgggR-yoA.jpg",
+      "https://ideogram.ai/api/images/direct/tHxdFAY_QQe7nEgggR-yoA.jpg",
+      "https://ideogram.ai/api/images/direct/tHxdFAY_QQe7nEgggR-yoA.jpg"
     ],
     "rating": 4.8,
-    "shopId": 4
+    "shopId": 4,
+    "deliveryFee": 100
   },
   {
-    "id": 4,
     "category": "paintings",
     "name": "Cityscape Reflections",
-    "artist": "Sophia Lee",
+    "artisan": "Sophia Lee",
     "price": 180.00,
     "description": "A captivating cityscape painting depicting the reflections of city lights on a calm river.",
     "images": [
-      "/images/Cityscape_Reflections_handmade_painting.jpg",
-      "/images/Cityscape_Reflections_handmade_painting.jpg",
-      "/images/Cityscape_Reflections_handmade_painting.jpg"
+      "https://ideogram.ai/api/images/direct/CpmvHQXOSZSzBr7FHF0KvA.jpg",
+      "https://ideogram.ai/api/images/direct/CpmvHQXOSZSzBr7FHF0KvA.jpg",
+      "https://ideogram.ai/api/images/direct/CpmvHQXOSZSzBr7FHF0KvA.jpg"
     ],
     "rating": 4.0,
-    "shopId": 2
+    "shopId": 2,
+    "deliveryFee": 100
   },
   {
-    "id": 5,
     "category": "wooden",
     "name": "Hand-carved Teak Bowl Set",
     "artisan": "Michael Turner",
     "price": 75.00,
     "description": "Set of hand-carved teak bowls, perfect for serving and adding a touch of nature to your dining table.",
     "images": [
-      "/images/Handcarved_Teak_Bowl_Set.jpg",
-      "/images/Handcarved_Teak_Bowl_Set.jpg",
-      "/images/Handcarved_Teak_Bowl_Set.jpg"
+      "https://ideogram.ai/api/images/direct/QY8qktsFRJKmo5t5IKEHHw.jpg",
+      "https://ideogram.ai/api/images/direct/QY8qktsFRJKmo5t5IKEHHw.jpg",
+      "https://ideogram.ai/api/images/direct/QY8qktsFRJKmo5t5IKEHHw.jpg"
     ],
     "rating": 4.7,
-    "shopId": 5
+    "shopId": 5,
+    "deliveryFee": 100
   },
   {
-    "id": 6,
     "category": "pottery",
     "name": "Artisan Ceramic Vase",
     "artisan": "Maria Gonzalez",
     "price": 40.00,
     "description": "Beautiful handmade ceramic vase, perfect for displaying flowers or as a standalone decorative piece.",
     "images": [
-      "/images/Artisan_Ceramic_Vase.jpg",
-      "/images/Artisan_Ceramic_Vase.jpg",
-      "/images/Artisan_Ceramic_Vase.jpg"
+      "https://ideogram.ai/api/images/direct/tHxdFAY_QQe7nEgggR-yoA.jpg",
+      "https://ideogram.ai/api/images/direct/tHxdFAY_QQe7nEgggR-yoA.jpg",
+      "https://ideogram.ai/api/images/direct/tHxdFAY_QQe7nEgggR-yoA.jpg"
     ],
     "rating": 4.6,
-    "shopId": 6
+    "shopId": 6,
+    "deliveryFee": 100
   },
   {
-    "id": 7,
     "category": "glass",
     "name": "Hand-blown Glass Sculpture",
     "artisan": "David Smith",
     "price": 120.00,
     "description": "Exquisite hand-blown glass sculpture, showcasing intricate details and vibrant colors.",
     "images": [
-      "/images/Handblown_Glass_Sculpture.jpg",
-      "/images/Handblown_Glass_Sculpture.jpg",
-      "/images/Handblown_Glass_Sculpture.jpg"
+      "https://ideogram.ai/api/images/direct/nDFV7mhRQXirwhMM3jsS9g.jpg",
+      "https://ideogram.ai/api/images/direct/nDFV7mhRQXirwhMM3jsS9g.jpg",
+      "https://ideogram.ai/api/images/direct/nDFV7mhRQXirwhMM3jsS9g.jpg"
     ],
     "rating": 4.9,
-    "shopId": 5
+    "shopId": 5,
+    "deliveryFee": 100
   },
   {
-    "id": 8,
     "category": "home-decor",
     "name": "Rustic Wooden Wall Shelf",
     "artisan": "Emma Johnson",
     "price": 60.00,
     "description": "Rustic wooden wall shelf with a distressed finish, perfect for displaying photos or small decor items.",
     "images": [
-      "/images/Rustic_Wooden_Wall_Shelf.jpg",
-      "/images/Rustic_Wooden_Wall_Shelf.jpg",
-      "/images/Rustic_Wooden_Wall_Shelf.jpg"
+      "https://ideogram.ai/api/images/direct/O6kWtmLzSl-BoASC92G3Bw.jpg",
+      "https://ideogram.ai/api/images/direct/O6kWtmLzSl-BoASC92G3Bw.jpg",
+      "https://ideogram.ai/api/images/direct/O6kWtmLzSl-BoASC92G3Bw.jpg"
     ],
     "rating": 4.3,
-    "shopId": 4
+    "shopId": 4,
+    "deliveryFee": 100
   },
   {
-    "id": 9,
     "category": "garden",
     "name": "Handcrafted Ceramic Plant Pot",
     "artisan": "Olivia Martinez",
     "price": 35.00,
     "description": "Beautiful handcrafted ceramic plant pot, ideal for indoor or outdoor plants.",
     "images": [
-      "/images/Handcrafted_Ceramic_Plant_Pot.jpg",
-      "/images/Handcrafted_Ceramic_Plant_Pot.jpg",
-      "/images/Handcrafted_Ceramic_Plant_Pot.jpg"
+      "https://ideogram.ai/api/images/direct/Vo2zCU41RkKLpJxvn0RKQg.jpg",
+      "https://ideogram.ai/api/images/direct/Vo2zCU41RkKLpJxvn0RKQg.jpg",
+      "https://ideogram.ai/api/images/direct/Vo2zCU41RkKLpJxvn0RKQg.jpg"
     ],
     "rating": 4.7,
-    "shopId": 1
+    "shopId": 1,
+    "deliveryFee": 100
   },
   {
-    "id": 10,
     "category": "fabric",
     "name": "Handwoven Linen Throw Blanket",
     "artisan": "Sophie Brown",
     "price": 85.00,
     "description": "Soft and cozy handwoven linen throw blanket, perfect for adding warmth and texture to your living space.",
     "images": [
-      "/images/Handwoven_Linen_Throw_Blanket.jpg",
-      "/images/Handwoven_Linen_Throw_Blanket.jpg",
-      "/images/Handwoven_Linen_Throw_Blanket.jpg"
+      "https://ideogram.ai/api/images/direct/Ry113yqgQl-CUImjg8lE7A.jpg",
+      "https://ideogram.ai/api/images/direct/Ry113yqgQl-CUImjg8lE7A.jpg",
+      "https://ideogram.ai/api/images/direct/Ry113yqgQl-CUImjg8lE7A.jpg"
     ],
     "rating": 4.5,
-    "shopId": 6
+    "shopId": 6,
+    "deliveryFee": 150
   },
   {
-    "id": 11,
     "category": "wood",
     "name": "Handcrafted Walnut Cutting Board",
     "artisan": "James White",
     "price": 50.00,
     "description": "Stunning handcrafted walnut cutting board, perfect for chopping and serving.",
     "images": [
-      "/images/Handcrafted_Walnut_Cutting_Board.jpg",
-      "/images/Handcrafted_Walnut_Cutting_Board.jpg",
-      "/images/Handcrafted_Walnut_Cutting_Board.jpg"
+      "https://ideogram.ai/api/images/direct/_PKzHtNtRCC499wwbNuldg.jpg",
+      "https://ideogram.ai/api/images/direct/_PKzHtNtRCC499wwbNuldg.jpg",
+      "https://ideogram.ai/api/images/direct/_PKzHtNtRCC499wwbNuldg.jpg"
     ],
     "rating": 3,
-    "shopId": 2
+    "shopId": 2,
+    "deliveryFee": 200
   },
   {
-    "id": 12,
     "category": "fine-craft",
     "name": "Handmade Leather Wallet",
     "artisan": "Alexandra Smith",
     "price": 75.00,
     "description": "Exquisite handmade leather wallet, crafted with precision and attention to detail.",
     "images": [
-      "/images/Handmade_Leather_Wallet.jpg",
-      "/images/Handmade_Leather_Wallet.jpg",
-      "/images/Handmade_Leather_Wallet.jpg"
+      "https://ideogram.ai/api/images/direct/htT4PdvfQcWPJxujgdIXkg.jpg",
+      "https://ideogram.ai/api/images/direct/htT4PdvfQcWPJxujgdIXkg.jpg",
+      "https://ideogram.ai/api/images/direct/htT4PdvfQcWPJxujgdIXkg.jpg"
     ],
     "rating": 3.5,
-    "shopId": 3
+    "shopId": 3,
+    "deliveryFee": 100
   },
   {
-    "id": 13,
     "category": "personalization",
     "name": "Custom Engraved Wooden Sign",
     "artisan": "Thomas Johnson",
     "price": 55.00,
     "description": "Personalized wooden sign with custom engraving, perfect for adding a personal touch to your home decor.",
     "images": [
-      "/images/Custom_Engraved_Wooden_Sign.jpg",
-      "/images/Custom_Engraved_Wooden_Sign.jpg",
-      "/images/Custom_Engraved_Wooden_Sign.jpg"
+      "https://ideogram.ai/api/images/direct/dF-FqMooTVuvPdHFTRb3lw.jpg",
+      "https://ideogram.ai/api/images/direct/dF-FqMooTVuvPdHFTRb3lw.jpg",
+      "https://ideogram.ai/api/images/direct/dF-FqMooTVuvPdHFTRb3lw.jpg"
     ],
     "rating": 4.7,
-    "shopId": 4
+    "shopId": 4,
+    "deliveryFee": 109
   }
 ]

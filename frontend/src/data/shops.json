@@ -1,7 +1,7 @@
 {
     "shops": [
       {
-        "id": 1,
+        "_id": "shop1_id",
         "name": "Artisan Creations",
         "location": "Online",
         "website": "https://www.artisancreations.com",
@@ -10,11 +10,13 @@
         "description": "Discover unique handcrafted artworks and creations by talented artisans.",
         "image": "artisan_creations.jpg",
         "products": [
-          1,3,5,1
-      ]
+          "65c7b84fcd2bc4fae6529a8d",
+          "65c7bb738714072c15ddb53d",
+          "65c7bb4a8714072c15ddb53a"
+        ]
       },
       {
-        "id": 2,
+       
         "name": "Vintage Treasures",
         "location": "Online",
         "website": "https://www.vintagetreasures.com",
@@ -23,11 +25,13 @@
         "description": "Explore a curated collection of vintage treasures and unique antiques.",
         "image": "vintage_treasures.jpg",
         "products": [
-          1,2,5,2
-      ]
+          "65c7bb738714072c15ddb53e",
+          "65c7bb738714072c15ddb541",
+          "65c7bb738714072c15ddb542"
+        ]
       },
       {
-        "id": 3,
+      
         "name": "Nature's Delight",
         "location": "Online",
         "website": "https://www.naturesdelight.com",
@@ -36,11 +40,13 @@
         "description": "Embrace the beauty of nature with our handpicked selection of natural wonders.",
         "image": "natures_delight.jpg",
         "products": [
-          1,1,5,2
-      ]
+          "65c7bb738714072c15ddb540",
+          "65c7bb738714072c15ddb543",
+          "65c7bb738714072c15ddb544"
+        ]
       },
       {
-        "id": 4,
+      
         "name": "Modern Elegance",
         "location": "Online",
         "website": "https://www.modernelegance.com",
@@ -49,11 +55,13 @@
         "description": "Experience contemporary sophistication with our curated modern art pieces.",
         "image": "modern_elegance.jpg",
         "products": [
-          1,3,5,2
-      ]
+          "65c7bb738714072c15ddb53a",
+          "65c7bb738714072c15ddb53d",
+          "65c7bb738714072c15ddb541"
+        ]
       },
       {
-        "id": 5,
+ 
         "name": "Crafty Corner",
         "location": "Online",
         "website": "https://www.craftycorner.com",
@@ -62,11 +70,13 @@
         "description": "Explore the world of crafts with our diverse collection of handmade wonders.",
         "image": "crafty_corner.jpg",
         "products": [
-          1,3,5,2
-      ]
+          "65c7bb738714072c15ddb53a",
+          "65c7bb738714072c15ddb53d",
+          "65c7bb738714072c15ddb541"
+        ]
       },
       {
-        "id": 6,
+       
         "name": "Aromatic Haven",
         "location": "Online",
         "website": "https://www.aromatichaven.com",
@@ -75,9 +85,12 @@
         "description": "Indulge your senses with our collection of exquisite fragrances and scents.",
         "image": "aromatic_haven.jpg",
         "products": [
-          5,3,5,5
-      ]
+          "65c7bb738714072c15ddb53f",
+          "65c7bb738714072c15ddb541",
+          "65c7bb738714072c15ddb544"
+        ]
       }
     ]
+    
   }
   

@@ -15,6 +15,7 @@ import ProductDetail from './pages/productDetail';
 import CatagorizedProducts from './pages/catagorizedProducts';
 import Checkout from './pages/Checkout';
 import Cart from './pages/Cart';
+import Payment from './pages/Payment';
 
 
 
@@ -69,6 +70,10 @@ function App() {
     {
       path: "/cart",
       element: <Cart/>,
+    },
+    {
+      path: "/payment",
+      element: <Payment/>,
     },
   ]);
  
