@@ -1,55 +1,20 @@
-const router = require('express').Router()
+const express = require('express');
+const router = express.Router();
+const usersController = require('../controllers/usersController');
 
+// Route to get all users
+router.get('/', usersController.getAllUsers);
 
-router.post('/register', async (req, res) => {
-    const { email } = req.body;
-    try {
-        // const user = await User.findOne({ email });
-        // if (user) {
-        //     res.status(409).json("User alredy Registred")
-        // }
-        // else {
-            // const saltRounds = 10;
-            // bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
-            //     const newuser = new User({
-            //         email: req.body.email,
-            //         password: hash,
+// Route to sign in
+router.post('/signin', usersController.signIn);
 
-            //     });
-            //     await newuser.save();
-            //     res.send('User registered successfully');
-            // });
-        // }
+// Route to sign up
+router.post('/signup', usersController.signUp);
 
-    } catch (error) {
-        res.status(400).json(error);
-        console.log(error)
-    }
-});
+// Route to get user profile
+router.get('/:id/profile', usersController.getUserProfile);
 
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body
-    try {
-        // const user = await User.findOne({ email });
-        // if (user) {
-        //     bcrypt.compare(password, user.password, function (err, result) {
-        //         if (result) {
-        //             const token = generateAccessToken(email)
-        //             res.status(200).json({
-        //                 user: user,
-        //                 token: token
-        //             })
-        //         }
-        //         else {
-        //             res.status(401).json("Worng Password")
-        //         }
-        //     });
-        // }
-        // else {
-        //     res.status(400).json(" Not Registred")
-        // }
+// Route to update user profile
+router.put('/:id/profile', usersController.updateUserProfile);
 
-    } catch (error) {
-        return res.status(400).json(error);
-    }
-})
+module.exports = router;

@@ -1,4 +1,35 @@
-const Order = require('../models/Order');
+// const Order = require('../models/Order');
+
+const {Safepay} = require('@sfpy/node-sdk')
+
+const safepay = new Safepay({
+    environment: 'sandbox',
+    apiKey: 'sec_41d4ee2c-f14b-4014-8d62-161012b2c034',
+    v1Secret: 'f94cd00834086c95cf0a4a6b442e50269f621ad7bcb38526be67e92da798086b',
+    webhookSecret: 'foo'
+})
+
+exports.payment = async (req, res) => {
+    try {
+        console.log("first")
+        const { token } = await safepay.payments.create({
+            amount: 200,
+            currency: 'PKR'
+        })
+        const url = safepay.checkout.create({
+            token,
+            orderId: 'T800',
+            cancelUrl: `${process.env.FRONT_END_BASE_URL}/payment`,
+            redirectUrl: `${process.env.FRONT_END_BASE_URL}/order-completed`,
+            source: 'custom',
+            webhooks: true
+        })
+        res.status(200).json(url)
+        // redirect user to `url`
+    } catch (error) {
+console.log(error)
+    }
+}
 
 // Create a new order
 exports.createOrder = async (req, res) => {

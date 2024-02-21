@@ -19,11 +19,14 @@ export const productsApi = createApi({
       query: (catagory) => `/products/category/${catagory}`,
     }),
     getProductsDetailList: builder.mutation({
-      query: ({productsIds }) => ({
+      query: (productsIds) => ({
         url: `products/detail-list/byIds`,
-        method: 'GET',
+        method: 'POST',
         body: productsIds,
       }),
+    }),
+    getplaceOrder: builder.query({
+      query: (catagory) => `/orders/payment`,
     }),
   }),
 })

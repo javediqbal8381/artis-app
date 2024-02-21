@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { shops } from '../data/shops.json';
 import Layout from '../components/layouts/Layout';
@@ -8,6 +8,7 @@ import { productsApi } from '../redux/api/productApi';
 import { useDispatch } from 'react-redux';
 import { addtoCart } from '../redux/slices/cartSlice';
 import Loader from '../components/commen/Loader';
+import { shopsApi } from '../redux/api/shopsApi';
 
 const ProductDetail = () => {
 
@@ -17,18 +18,18 @@ const ProductDetail = () => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
     const { productId } = useParams();
-    const { isError, isLoading, data:product } = productsApi.useGetProductDetailsQuery(productId)
-    const {isErrorProducts,isLoadingProducts,data:products} = productsApi.useGetHomeProductsQuery()
+    const { isError, isLoading, data: product } = productsApi.useGetProductDetailsQuery(productId)
+    const { data: shopOfProduct, isLoading: isShopLoading } = shopsApi.useGetShopByIdQuery(product?.shopId, { skip: !product })
+    const [getMoreProducts, { isError: isErrorProducts, isLoading: isLoadingProducts, data: moreProducts }] = productsApi.useGetProductsDetailListMutation()
 
+    useEffect(() => {
+        if (shopOfProduct) {
+            getMoreProducts(shopOfProduct.products)
+        }
+    }, [shopOfProduct])
     if (!product) {
         return <div>Product not found</div>;
     }
-
-    // find out the shop of product
-    const shopOfProduct = shops.filter(shop => shop.id === product.shopId)[0];
-
-    // Filter products from the same shop
-    const moreProducts = products?.filter(p => shopOfProduct.products?.includes(p._id)) || []
 
     const handleThumbnailClick = (index) => {
         setSelectedImageIndex(index);
@@ -54,8 +55,9 @@ const ProductDetail = () => {
         <Layout>
             <div className="container mx-auto mt-8 flex flex-col sm:flex-row justify-center">
                 {
-                    isLoading ?
-                        <Loader /> :
+                    isLoading || isLoadingProducts || isShopLoading || !moreProducts?
+                        <Loader />
+                        :
                         <>
                             <div className="w-full sm:w-2/3">
                                 <div className="bg-white p-6 rounded-lg shadow-md">
@@ -65,7 +67,7 @@ const ProductDetail = () => {
                                         alt={product.name}
                                     />
                                     <div className="flex justify-between mb-4">
-                                        {product.images.map((image, index) => (
+                                        {product.images  || [].map((image, index) => (
                                             <img
                                                 key={index}
                                                 className={`w-1/4 h-auto object-contain cursor-pointer ${index === selectedImageIndex ? 'border-2 border-blue-500' : ''}`}

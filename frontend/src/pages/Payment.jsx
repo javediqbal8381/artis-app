@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/layouts/Layout';
 import { BsCashCoin, BsCreditCard,  } from "react-icons/bs";
 import { FaStore } from "react-icons/fa";
+import { ordersApi } from '../redux/api/orderApi';
 
 
 const Payment = () => {
-    const [selectedMethod, setSelectedMethod] = useState(null);
     const pickFromStore = sessionStorage.getItem('getProduct') === 'pickFromShop';
-console.log(pickFromStore)
-    const handleMethodSelection = (method) => {
-        setSelectedMethod(method);
+
+    const [triggerPayment,{isError,isLoading,data:safePayUrl}] = ordersApi.useLazyPerformSafePayPaymentQuery()
+
+    const handlePayment = (method) => {
+        if(method === 'SafePay') {
+           triggerPayment();
+        } 
     };
+
+    useEffect(() => {
+        if(safePayUrl && !isLoading){
+            window.open(safePayUrl, '_self');
+           }
+    }, [safePayUrl, isLoading])
 
     return (
         <Layout>
@@ -19,37 +29,16 @@ console.log(pickFromStore)
                 <div className="flex justify-between">
                     {
                         !pickFromStore &&
-                        <div className="w-1/3 border p-4 rounded-md cursor-pointer" onClick={() => handleMethodSelection('cod')}>
+                        <div className="w-1/3 border p-4 rounded-md cursor-pointer" onClick={() => handlePayment('cod')}>
                         <BsCashCoin className="w-8 h-8 mb-2 mx-auto" />
                         <p className="text-center">Cash on Delivery</p>
                     </div>
                     }
-                    <div className="w-1/3 border p-4 rounded-md cursor-pointer" onClick={() => handleMethodSelection('jazzcash')}>
+                    <div className="w-1/3 border p-4 rounded-md cursor-pointer" onClick={() => handlePayment('SafePay')}>
                         <BsCreditCard className="w-8 h-8 mb-2 mx-auto" />
-                        <p className="text-center">JazzCash</p>
+                        <p className="text-center">Online Payment</p>
                     </div>
                 </div>
-
-                {selectedMethod === 'cod' && (
-                    <div className="mt-8 bg-gray-100 p-4 rounded-md">
-                        <h3 className="text-lg font-semibold mb-2">Cash on Delivery</h3>
-                        <p>Pay cash when your order is delivered.</p>
-                    </div>
-                )}
-
-                {selectedMethod === 'jazzcash' && (
-                    <div className="mt-8 bg-gray-100 p-4 rounded-md">
-                        <h3 className="text-lg font-semibold mb-2">JazzCash</h3>
-                        <p>Pay securely using JazzCash.</p>
-                    </div>
-                )}
-
-                {selectedMethod === 'pick' && (
-                    <div className="mt-8 bg-gray-100 p-4 rounded-md">
-                        <h3 className="text-lg font-semibold mb-2">Pick from Shop</h3>
-                        <p>Collect your order from our shop location.</p>
-                    </div>
-                )}
             </div>
         </Layout>
     );

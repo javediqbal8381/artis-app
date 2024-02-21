@@ -9,6 +9,28 @@
 
 }
 
+/* Target all scrollbars */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+  }
+  
+  /* track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(183 156 125);
+    border-radius: 5px;
+  }
+  
+  /* handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(178, 139, 95);
+  }
+  
+
 .normal_btn{
     background-color: #a27745;
     padding: 6px 12px;

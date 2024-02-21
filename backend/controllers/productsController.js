@@ -47,7 +47,6 @@ exports.deleteProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
     try {
         const products = await Product.find();
-        console.log(products)
         res.json(products);
     } catch (error) {
         console.error('Error fetching all products:', error);
@@ -80,8 +79,7 @@ exports.getProductsByCategory = async (req, res) => {
 };
 
 exports.getProductsByIds = async (req, res) => {
-    const { productIds } = req.body;
-
+    const  productIds  = req.body;
     try {
         const products = await Product.find({ _id: { $in: productIds } });
         res.status(200).json(products);
