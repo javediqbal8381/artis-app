@@ -60,6 +60,12 @@ const Navbar = () => {
   }
   const debouncedFunction = debounce(myFunction, 1000);
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    navigate('/signin')
+  }
+
   return (
     <div className='h-20 p-3 px-8 flex items-center justify-between'>
       <Link to={'/'} className="logo_link">
@@ -103,7 +109,7 @@ const Navbar = () => {
                 <li className="px-4 py-2 hover:bg-gray-100">
                   <Link to="/settings">Settings</Link>
                 </li>
-                <li className="px-4 py-2 hover:bg-gray-100">
+                <li onClick={logout} className="px-4 py-2 hover:bg-gray-100">
                   <button >Logout</button>
                 </li>
               </ul>

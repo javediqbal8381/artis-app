@@ -27,7 +27,7 @@ const ProductList = ({products}) => {
             <div className="font-bold mt-2">Rating: 
             <StartRatings rating={product.rating}/>
             </div>
-            <p className="text-green-500 font-bold mt-2">{product.price.toFixed(2)} pkr</p>
+            <p className="text-green-500 font-bold mt-2">{product.price} pkr</p>
           </div>
         </div>
       ))}

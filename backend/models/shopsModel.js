@@ -31,7 +31,11 @@ const shopSchema = new mongoose.Schema({
   products: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product'
-  }]
+  }],
+  artisId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'User'
+  }
 });
 
 const Shop = mongoose.model('Shop', shopSchema);

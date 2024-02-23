@@ -49,5 +49,8 @@ export const shopsApi = createApi({
     getAllShopProducts: builder.query({
       query: (shopId) => `/shops/${shopId}/products`,
     }),
+    getArtisShops: builder.query({
+      query: (artisId) => `/shops/artis-shops/${artisId}`,
+    }),
   }),
 })

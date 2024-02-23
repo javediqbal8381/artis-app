@@ -17,8 +17,9 @@ import Checkout from './pages/Checkout';
 import Cart from './pages/Cart';
 import Payment from './pages/Payment';
 import OrderCompletePage from './pages/OrderCompletePage';
-import CreateShop from './pages/CreateShop';
 import ProtectedRoutes from './components/ProtectedRoutes';
+import ArtisShops from './pages/artis/ArtisShops';
+import ArtisShopDetail from './pages/artis/ArtisShopDetail';
 
 
 
@@ -86,8 +87,12 @@ function App() {
           element: <OrderCompletePage />,
         },
         {
-          path: "/create-shop",
-          element: <CreateShop />,
+          path: "/artis-shops",
+          element: <ArtisShops />,
+        },
+        {
+          path: "/artis-shop-detail/:shopId",
+          element: <ArtisShopDetail />,
         },
       ]
     }

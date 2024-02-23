@@ -26,4 +26,7 @@ router.delete('/:shopId/products', shopController.removeProductsFromShop);
 // GET all products of a shop
 router.get('/:shopId/products', shopController.getAllProductsOfShop);
 
+// GET all shops of an artis
+router.get('/artis-shops/:artisId', shopController.getShopsByArtisId);
+
 module.exports = router;

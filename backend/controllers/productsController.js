@@ -1,10 +1,20 @@
 const Product = require('../models/productsModel');
+const Shop = require('../models/shopsModel');
 
 // Create a new product
 exports.createProduct = async (req, res) => {
+    const { formData } = req.body;
     try {
-        const newProduct = new Product(req.body);
+        const newProduct = new Product(formData);
         await newProduct.save();
+        const shop = await Shop.findOne({ _id: formData.shopId });
+        if (shop) {
+            shop.products.push(newProduct._id);
+            await shop.save();
+        } else {
+            throw new Error('Shop not found');
+        }
+
         res.status(201).json({ message: 'Product created successfully', product: newProduct });
     } catch (error) {
         console.error('Error creating product:', error);
@@ -31,8 +41,19 @@ exports.updateProduct = async (req, res) => {
 // Delete a product
 exports.deleteProduct = async (req, res) => {
     try {
-        const { id } = req.params;
-        const deletedProduct = await Product.findByIdAndDelete(id);
+        const { productId, shopId } = req.body;
+
+        // Step 1: Find the shop by its ID
+        const shopOfDeletingProduct = await Shop.findById(shopId);
+
+        // Step 2: Remove the deleted product's ID from the products array
+        shopOfDeletingProduct.products = shopOfDeletingProduct.products.filter(id => id.toString() !== productId);
+
+        // Step 3: Save the updated shop
+        await shopOfDeletingProduct.save();
+
+        // Delete the product
+        const deletedProduct = await Product.findByIdAndDelete(productId);
         if (!deletedProduct) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -79,7 +100,7 @@ exports.getProductsByCategory = async (req, res) => {
 };
 
 exports.getProductsByIds = async (req, res) => {
-    const  productIds  = req.body;
+    const productIds = req.body;
     try {
         const products = await Product.find({ _id: { $in: productIds } });
         res.status(200).json(products);

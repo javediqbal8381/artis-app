@@ -120,3 +120,23 @@ exports.getAllProductsOfShop = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+exports.getShopsByArtisId = async (req, res) => {
+  const { artisId } = req.params;
+  try {
+    // Find all shops where the owner's ID matches the provided Artis ID
+    const shops = await Shop.find({ artisId });
+
+    if (!shops || shops.length === 0) {
+      return res.status(404).json({ message: 'No shops found for this Artis' });
+    }
+
+    // If shops are found, return them in the response
+    res.status(200).json(shops);
+  } catch (error) {
+    // Handle any errors that occur during the database query
+    console.error('Error fetching shops by Artis ID:', error);
+    res.status(500).json({ message: 'Failed to fetch shops by Artis ID' });
+  }
+};

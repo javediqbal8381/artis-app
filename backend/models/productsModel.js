@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     price: {
-        type: Number,
+        type: String,
         required: true
     },
     description: {
@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema({
     },
     images: {
         type: [String],
-        required: true
+        // required: true
     },
     rating: {
         type: Number,
@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema({
         ref: 'Shop'
     },
     deliveryFee: {
-        type: Number,
+        type: String,
         required: true
     }
 });

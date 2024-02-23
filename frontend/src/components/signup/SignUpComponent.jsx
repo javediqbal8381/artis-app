@@ -21,7 +21,7 @@ const [signUp] = usersApi.useSignUpMutation();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response =await signUp(formData);
+      const response = await signUp(formData);
       console.log(response)
       if (response.error) {
         setError(response.error.data?.message);

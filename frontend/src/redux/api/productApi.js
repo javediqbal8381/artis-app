@@ -28,5 +28,19 @@ export const productsApi = createApi({
     getplaceOrder: builder.query({
       query: (catagory) => `/orders/payment`,
     }),
+    uploadProduct: builder.mutation({
+      query: (product) => ({
+        url: `products`,
+        method: 'POST',
+        body: product,
+      }),
+    }),
+    deleteProduct: builder.mutation({
+      query: (data) => ({
+        url: `products/delete`,
+        method: 'DELETE',
+        body: data,
+      }),
+    }),
   }),
 })
