@@ -11,9 +11,8 @@ const safepay = new Safepay({
 
 exports.payment = async (req, res) => {
     try {
-        console.log("first")
         const { token } = await safepay.payments.create({
-            amount: 200,
+            amount: Number(req.query.price),
             currency: 'PKR'
         })
         const url = safepay.checkout.create({

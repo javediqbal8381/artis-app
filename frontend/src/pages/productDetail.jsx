@@ -6,7 +6,7 @@ import StarRatings from '../components/commen/StartRatings';
 import OutlinedButton from '../components/commen/buttons/OutlinedButton';
 import { productsApi } from '../redux/api/productApi';
 import { useDispatch } from 'react-redux';
-import { addtoCart } from '../redux/slices/cartSlice';
+import { addtoCart, storecheckoutProductsInfo } from '../redux/slices/cartSlice';
 import Loader from '../components/commen/Loader';
 import { shopsApi } from '../redux/api/shopsApi';
 
@@ -21,6 +21,7 @@ const ProductDetail = () => {
     const { isError, isLoading, data: product } = productsApi.useGetProductDetailsQuery(productId)
     const { data: shopOfProduct, isLoading: isShopLoading } = shopsApi.useGetShopByIdQuery(product?.shopId, { skip: !product })
     const [getMoreProducts, { isError: isErrorProducts, isLoading: isLoadingProducts, data: moreProducts }] = productsApi.useGetProductsDetailListMutation()
+    const [rateProduct,] = productsApi.useRateProductMutation()
 
     useEffect(() => {
         if (shopOfProduct) {
@@ -47,15 +48,26 @@ const ProductDetail = () => {
     };
     const handleOrderNow = () => {
         // Implement order now functionality
-        console.log('Ordered now:', product);
+        const data = JSON.stringify({
+            totalDeliveryFee: product.deliveryFee,
+            totalPrice: product.price
+        })
+        localStorage.setItem('checkoutInfo', data)
         navigate(`/checkout?productid=${product._id}`)
     };
+
+    const handleStarClick = (starIndex) => {
+        rateProduct({
+            starIndex,
+            productId
+        })
+    }
 
     return (
         <Layout>
             <div className="container mx-auto mt-8 flex flex-col sm:flex-row justify-center">
                 {
-                    isLoading || isLoadingProducts || isShopLoading || !moreProducts?
+                    isLoading || isLoadingProducts || isShopLoading || !moreProducts ?
                         <Loader />
                         :
                         <>
@@ -67,7 +79,7 @@ const ProductDetail = () => {
                                         alt={product.name}
                                     />
                                     <div className="flex justify-between mb-4">
-                                        {product.images  || [].map((image, index) => (
+                                        {product.images || [].map((image, index) => (
                                             <img
                                                 key={index}
                                                 className={`w-1/4 h-auto object-contain cursor-pointer ${index === selectedImageIndex ? 'border-2 border-blue-500' : ''}`}
@@ -81,6 +93,12 @@ const ProductDetail = () => {
                                     <p className="text-gray-600 mb-2">Category: {product.category}</p>
                                     <p className="text-gray-600 mb-2">Price: {product.price}pkr</p>
                                     <p className="text-gray-700 mb-4">{product.description}</p>
+                                    <StarRatings
+                                        detail={"product"}
+                                        rating={product.rating}
+                                        handleStarClick={handleStarClick}
+                                    />
+                                    <br />
                                     <div className="flex gap-4">
                                         <OutlinedButton onClick={() => handleAddToCart(product._id)}>Add to Cart</OutlinedButton>
                                         <OutlinedButton onClick={handleOrderNow}>Order Now</OutlinedButton>
@@ -90,7 +108,7 @@ const ProductDetail = () => {
                                     <img src={shopOfProduct.image} alt="shop" />
                                     <div>
                                         <p className='text-mid'>{shopOfProduct.name}</p>
-                                        <StarRatings rating={3.5} />
+                                        <StarRatings rating={shopOfProduct.rating} />
                                         <p>{shopOfProduct.description}</p>
                                     </div>
                                 </div>

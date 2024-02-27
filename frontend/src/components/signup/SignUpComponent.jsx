@@ -17,7 +17,7 @@ function SignUpComponent() {
     setFormData({ ...formData, [name]: value });
   };
 const navigate = useNavigate();
-const [signUp] = usersApi.useSignUpMutation();
+const [signUp, {isLoading}] = usersApi.useSignUpMutation();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,7 +37,7 @@ const [signUp] = usersApi.useSignUpMutation();
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
       <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
-      <h1 className="text-veryLarge font-semibold text-center text-gray-800 mb-6">
+      <h1 className="text-veryLarge text-db font-semibold text-center text-gray-800 mb-6">
           Artis-app
         </h1>
         <h2 className="text-2xl font-semibold text-center text-gray-800">
@@ -100,17 +100,19 @@ const [signUp] = usersApi.useSignUpMutation();
               placeholder="Your password"
             />
           </div>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
+          <div className='w-full flex items-center justify-center '>
           <button
             type="submit"
-            className="rounded-lg bg-indigo-500 hover:bg-indigo-600 py-2 mt-4 transition duration-300"
+            className=" normal_btn"
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? 'Signing Ip...' : 'Sign Up'}
           </button>
+          </div>
         </form>
         <p className="mt-12 text-xs text-center text-gray-600">
           Already have an account?{' '}
-          <Link to={'/signin'} className="text-indigo-600 hover:underline">
+          <Link to={'/signin'} className="text-indigo-600 font-extrabold hover:underline">
             Sign In
           </Link>
         </p>

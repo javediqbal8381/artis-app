@@ -20,6 +20,8 @@ import OrderCompletePage from './pages/OrderCompletePage';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import ArtisShops from './pages/artis/ArtisShops';
 import ArtisShopDetail from './pages/artis/ArtisShopDetail';
+import ErrorPage from './components/commen/ErrorPage';
+import Dashboard from './pages/admin/dashboard';
 
 
 
@@ -30,14 +32,17 @@ function App() {
     {
       path: "/",
       element: <Home />,
+      errorElement: <ErrorPage/>
     },
     {
       path: "/signup",
       element: <SignUp />,
+      errorElement: <ErrorPage/>
     },
     {
       path: "/signin",
       element: <SignIn />,
+      errorElement: <ErrorPage/>
     },
     {
       element: <ProtectedRoutes />,
@@ -94,7 +99,12 @@ function App() {
           path: "/artis-shop-detail/:shopId",
           element: <ArtisShopDetail />,
         },
-      ]
+        {
+          path: "/admin/dashboard",
+          element: <Dashboard />,
+        }
+      ],
+      // errorElement: <ErrorPage/>
     }
   ]);
 

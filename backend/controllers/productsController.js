@@ -146,6 +146,31 @@ exports.getProductsByPriceRange = async (req, res) => {
     }
 };
 
+// rate products
+exports.rateProduct = async (req, res) => {
+    const {productId, starIndex} = req.body
+    try {
+      // Find the product by ID
+      const product = await Product.findById(productId);
+      if (!product) {
+        return { success: false, message: 'Product not found' };
+      }
+      // Calculate new average rating based on existing ratings and the new rating
+      const { rating, ratingAmount } = product;
+      const totalRatings = rating * ratingAmount;
+      const updatedRating = (totalRatings + starIndex) / (ratingAmount + 1);
+  
+      // Update product with new rating
+      product.rating = updatedRating;
+      product.ratingAmount += 1;
+  
+      // Save the updated product
+      await product.save();
+      res.status(200).json({ message: 'Product rating updated successfully' }); 
+
+    } catch (error) {
+        res.status(500).json({ message: error._message });    }
+  };
 
 // bulk actions -----------------------------------------------
 

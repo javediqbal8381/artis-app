@@ -35,7 +35,11 @@ const shopSchema = new mongoose.Schema({
   artisId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
-  }
+  },
+  ratingAmount: {
+    type: Number,
+    required: true
+}
 });
 
 const Shop = mongoose.model('Shop', shopSchema);

@@ -24,7 +24,7 @@ const navigate = useNavigate()
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
       <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
-        <h1 className="text-veryLarge font-semibold text-center text-gray-800 mb-6">
+        <h1 className="text-veryLarge text-db font-semibold text-center text-gray-800 mb-6">
           Artis-app
         </h1>
         <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
@@ -65,27 +65,28 @@ const navigate = useNavigate()
               placeholder="Your password"
             />
           </div>
+          <div className='w-full flex items-center justify-center '>
           <button
             type="submit"
-            className="rounded-lg bg-indigo-500 hover:bg-indigo-600 py-2 mt-4 transition duration-300"
+            className=" normal_btn"
             disabled={isLoading}
           >
             {isLoading ? 'Signing In...' : 'Sign In'}
           </button>
+          </div>
         </form>
         <p className="mt-4 text-sm text-center text-gray-600">
           Forgot your password?{' '}
-          <a href="#" className="text-indigo-600 hover:underline transition duration-300">
+          <a href="#" className="text-indigo-600 font-extrabold hover:underline transition duration-300">
             Reset it
           </a>
         </p>
         <p className="mt-4 text-sm text-center text-gray-600">
           Don't have an account?{' '}
-          <Link to={'/signup'} className="text-indigo-600 hover:underline transition duration-300">
+          <Link to={'/signup'} className="text-indigo-600 font-extrabold hover:underline transition duration-300">
             Sign Up
           </Link>
         </p>
-        {isError && <p className="text-red-500 text-sm mt-4">{isError}</p>}
       </div>
     </div>
   );

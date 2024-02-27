@@ -29,4 +29,8 @@ router.get('/:shopId/products', shopController.getAllProductsOfShop);
 // GET all shops of an artis
 router.get('/artis-shops/:artisId', shopController.getShopsByArtisId);
 
+// Rate shop
+// Route for bulk product creation
+router.post('/shop-rate', shopController.rateShop);
+
 module.exports = router;

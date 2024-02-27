@@ -42,5 +42,12 @@ export const productsApi = createApi({
         body: data,
       }),
     }),
+    rateProduct: builder.mutation({
+      query: (data) => ({
+        url: `products/product-rate`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 })

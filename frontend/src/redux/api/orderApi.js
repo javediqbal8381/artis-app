@@ -7,7 +7,7 @@ export const ordersApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_BASE_URL }),
   endpoints: (builder) => ({
     performSafePayPayment: builder.query({
-      query: (catagory) => `/orders/payment`,
+      query: (price) => `/orders/payment?price=${price}`,
     }),
   }),
 })

@@ -9,7 +9,6 @@ const HomeProducts = () => {
     
     return (
         <div>
-            HomeProducts
             {
                 isLoading ? 
                 <Loader/> :

@@ -19,7 +19,8 @@ const ArtisShopDetail = () => {
     images: ['', '', ''],
     rating: 0,
     shopId,
-    deliveryFee: ''
+    deliveryFee: '',
+    ratingAmount: 0
   });
 
 
@@ -59,7 +60,8 @@ const ArtisShopDetail = () => {
         images: ['', '', ''],
         rating: 0,
         shopId,
-        deliveryFee: ''
+        deliveryFee: '',
+        ratingAmount: 0
       });
       setIsModalOpen(false);
     } catch (error) {

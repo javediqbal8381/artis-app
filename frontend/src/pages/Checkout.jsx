@@ -19,6 +19,7 @@ const Checkout = ({ cartItems }) => {
     });
     const [pickFromStore, setPickFromStore] = React.useState(false)
     const itemsInCart = useSelector(state => state.cart.cartItems);
+    const checkoutInfo = JSON.parse(localStorage.getItem('checkoutInfo'));
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -85,7 +86,7 @@ const Checkout = ({ cartItems }) => {
                         <Loader /> :
                         <>
                             <h2 className="text-2xl font-bold mb-4">Checkout</h2>
-                            <DiscountAndPayment finalProducts={finalProducts || []} />
+                            <DiscountAndPayment checkoutInfo={checkoutInfo || {}} />
                             <br />
                             <h2>Enter Address info below or select pick from shop</h2>
                             <form onSubmit={handleSubmit} className="space-y-4">

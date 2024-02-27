@@ -19,6 +19,7 @@ const ArtisShops = () => {
     description: '',
     image: '',
     products: [],
+    ratingAmount: 0,
     artisId: localStorage.getItem('userId') // Assuming userId is stored in localStorage
   });
 

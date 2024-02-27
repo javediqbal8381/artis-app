@@ -1,25 +1,52 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/layouts/Layout';
-import products from '../data/products.json'
 import { useDispatch, useSelector } from 'react-redux';
-import { addtoCart, removeFromCart } from '../redux/slices/cartSlice';
-import { FaMinus, FaPlus } from 'react-icons/fa';
+import { removeFromCart, storecheckoutProductsInfo } from '../redux/slices/cartSlice';
 import CartItem from '../components/cart/CartItem';
+import { productsApi } from '../redux/api/productApi';
+import Loader from '../components/commen/Loader';
 
 const Cart = () => {
+    const navigate = useNavigate();
 
     const addedCartItems = useSelector(state => state.cart.cartItems);
+    const [itemsQuantity, setItemsQuantity] = React.useState([])
     const dispatch = useDispatch();
 
     // get the products ids and convert to numberset
-    const cartItems = products.filter(p => addedCartItems.includes(p.id))
+    const { isLoading, isError, data: products } = productsApi.useGetAllProductsQuery()
+    const cartItems = products?.filter(p => addedCartItems.includes(p._id))
+
+    React.useEffect(() => {
+        if (cartItems && cartItems.length > 0 && itemsQuantity.length < 1) {
+            const itemsInfo = cartItems.map(c => {
+                return {
+                    itemId: c._id,
+                    quantity: 1
+                }
+            })
+            setItemsQuantity(itemsInfo)
+        }
+    }, [cartItems])
+
+
+
+    if (isLoading) {
+        return <div className='w-[100vw] h-[100vh]'><Loader /></div>
+    }
+    if (isError) {
+        return <div className='w-[100vw] h-[100vw] flex items-center justify-center '>
+            <div className='cursor-pointer' onClick={() => window.location.reload()}>Reload</div>
+        </div>
+    }
+
     const handleRemoveProduct = (id) => {
         // Get current cart items from cookie
         const existingCartItems = document.cookie.split(';').find(cookie => cookie.trim().startsWith('cartItems='));
         const cartItems = existingCartItems ? JSON.parse(existingCartItems.split('=')[1]) : [];
         // console.log(id, cartItems)
-        const itemRemoved = cartItems.filter(item => item !== id).map(i => Number(i))
+        const itemRemoved = cartItems?.filter(item => item !== id)
         // Update cartItems in cookie
         document.cookie = `cartItems=${JSON.stringify(itemRemoved)};max-age=604800;path=/`; // Max age set to 1 week (604800 seconds)
         // update the state to see instent change
@@ -28,11 +55,70 @@ const Cart = () => {
 
     }
 
-    let itemQuanity = [];
+    const gotoCheckout = () => {
+        const existingCartItems = document.cookie.split(';').find(cookie => cookie.trim().startsWith('cartItems='));
+        const cartItems = existingCartItems ? JSON.parse(existingCartItems.split('=')[1]) : [];
+        const finalProducts = products.filter(p => cartItems.includes(p._id))
+        const deliveryFree = finalProducts.reduce((acc, product) => {
+            // Check if shopId already exists in the accumulator
+            if (acc.hasOwnProperty(product.shopId)) {
+                // If shopId exists, don't add the deliveryFee
+                acc[product.shopId] += 0;
+            } else {
+                // If shopId doesn't exist, add the deliveryFee to the accumulator
+                acc[product.shopId] = product.deliveryFee;
+            }
+            return acc;
+        }, {});
 
-    const incrementQuantity = (index) => {
+        const totalPrice = finalProducts.reduce((total, product) => {
+            // Find the corresponding item quantity object in itemsQuantety
+            const itemQuantity = itemsQuantity.find(item => item.itemId === product._id);
+            // If there is a corresponding item quantity, multiply price by quantity
+            if (itemQuantity) {
+                total += Number(product.price) * Number(itemQuantity.quantity);
+            }
+            return total;
+        }, 0);
+        // Summing up the delivery fees
+        const totalDeliveryFee = Object.values(deliveryFree).reduce((total, fee) => Number(total) + Number(fee), 0);
+        console.log(totalPrice)        
+        const data = JSON.stringify({totalDeliveryFee, totalPrice})
+        localStorage.setItem('checkoutInfo',data)
+        navigate("/checkout");
 
     }
+
+    const incrementQuantity = (itemId) => {
+        const updatedQuantity = itemsQuantity.map(i => {
+            if (i.itemId == itemId && i.quantity < 10) {
+                return {
+                    ...i,
+                    quantity: i.quantity + 1
+                }
+            }
+            else {
+                return i
+            }
+        })
+        setItemsQuantity(updatedQuantity)
+    }
+
+    const decrementQuantity = (itemId) => {
+        const updatedQuantity = itemsQuantity.map(i => {
+            if (i.itemId == itemId && i.quantity > 1) {
+                return {
+                    ...i,
+                    quantity: i.quantity - 1
+                }
+            }
+            else {
+                return i
+            }
+        })
+        setItemsQuantity(updatedQuantity)
+    }
+
     return (
         <Layout>
             <div className="container mx-auto mt-8">
@@ -46,12 +132,16 @@ const Cart = () => {
                                 <CartItem
                                     item={item}
                                     handleRemoveProduct={handleRemoveProduct}
-                                    key={index + item.id}
+                                    key={index + item._id}
+                                    incrementQuantity={incrementQuantity}
+                                    decrementQuantity={decrementQuantity}
+                                    setItemsQuantity={setItemsQuantity}
+                                    itemsQuantity={itemsQuantity}
                                 />
                             )
                         })}
                         <div className="mt-8">
-                            <Link to="/checkout" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Proceed to Checkout</Link>
+                            <button onClick={gotoCheckout} className="bg-blue-500 normal_btn py-2 px-4 w-fit rounded-md hover:bg-blue-600">Proceed to Checkout</button>
                         </div>
                     </div>
                 )}

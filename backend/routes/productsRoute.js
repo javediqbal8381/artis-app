@@ -32,7 +32,8 @@ router.get('/top-ratings', productsController.getProductsByTopRatings);
 // Get products by price range
 router.get('/price-range', productsController.getProductsByPriceRange);
 
-
+// Rate product
+router.post('/product-rate', productsController.rateProduct)
 
 // bulk ---------------------
 

@@ -128,10 +128,6 @@ exports.getShopsByArtisId = async (req, res) => {
     // Find all shops where the owner's ID matches the provided Artis ID
     const shops = await Shop.find({ artisId });
 
-    if (!shops || shops.length === 0) {
-      return res.status(404).json({ message: 'No shops found for this Artis' });
-    }
-
     // If shops are found, return them in the response
     res.status(200).json(shops);
   } catch (error) {
@@ -139,4 +135,28 @@ exports.getShopsByArtisId = async (req, res) => {
     console.error('Error fetching shops by Artis ID:', error);
     res.status(500).json({ message: 'Failed to fetch shops by Artis ID' });
   }
+};
+
+// rate shop
+exports.rateShop = async (req, res) => {
+  const {shopId, starIndex} = req.body
+  try {
+    // Find the product by ID
+    const shop = await Shop.findById(shopId);
+    if (!shop) {
+      return { success: false, message: 'Shop not found' };
+    }
+    // Calculate new average rating based on existing ratings and the new rating
+    const { rating, ratingAmount } = shop;
+    const totalRatings = rating * ratingAmount;
+    const updatedRating = (totalRatings + starIndex) / (ratingAmount + 1);
+    // Update shop with new rating
+    shop.rating = updatedRating;
+    shop.ratingAmount += 1;
+    // Save the updated shop
+    await shop.save();
+    res.status(200).json({ message: 'Shop rating updated successfully' }); 
+
+  } catch (error) {
+      res.status(500).json({ message: error._message });    }
 };

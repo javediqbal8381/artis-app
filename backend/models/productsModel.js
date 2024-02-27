@@ -36,6 +36,10 @@ const productSchema = new mongoose.Schema({
     deliveryFee: {
         type: String,
         required: true
+    },
+    ratingAmount: {
+        type: Number,
+        required: true
     }
 });
 
