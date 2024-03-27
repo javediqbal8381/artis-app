@@ -1,6 +1,6 @@
-// const Order = require('../models/Order');
+const Order = require('../models/ordersModel');
 
-const {Safepay} = require('@sfpy/node-sdk')
+const { Safepay } = require('@sfpy/node-sdk')
 
 const safepay = new Safepay({
     environment: 'sandbox',
@@ -23,24 +23,34 @@ exports.payment = async (req, res) => {
             source: 'custom',
             webhooks: true
         })
-        res.status(200).json(url)
         // redirect user to `url`
+      res.status(200).json(url)
     } catch (error) {
-console.log(error)
+        res.status(500).json(error)
     }
 }
 
 // Create a new order
 exports.createOrder = async (req, res) => {
+    console.log(req.body)
     try {
-        const newOrder = new Order(req.body);
+        // Get the count of existing orders
+        const orderCount = await Order.countDocuments();
+        // Generate the new order ID as the count of existing orders plus one
+        const newOrderId = orderCount + 1;
+
+        // Create the new order with the generated order ID
+        const newOrder = new Order({ ...req.body, orderId: newOrderId });
         await newOrder.save();
+
+        // Respond with success message and the new order
         res.status(201).json({ message: 'Order created successfully', order: newOrder });
     } catch (error) {
         console.error('Error creating order:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 
 // Get all orders
 exports.getAllOrders = async (req, res) => {
@@ -94,3 +104,16 @@ exports.deleteOrder = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+// Get orders by shop
+exports.getOrdersByShop = async (req, res) => {
+    try {
+        const { shopId } = req.params;
+        const orders = await Order.find({ shopId });
+        res.json(orders);
+    } catch (error) {
+        console.error('Error fetching orders by shop:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+

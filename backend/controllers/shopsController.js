@@ -62,6 +62,7 @@ exports.deleteShop = async (req, res) => {
     if (!deletedShop) {
       return res.status(404).json({ message: 'Shop not found' });
     }
+    await Product.deleteMany({ id });
     res.json({ message: 'Shop deleted successfully' });
   } catch (error) {
     console.error('Error deleting shop:', error);
@@ -72,14 +73,13 @@ exports.deleteShop = async (req, res) => {
 // Add products to a shop
 exports.addProductsToShop = async (req, res) => {
   const { shopId } = req.params;
-  const { products } = req.body;
   try {
     const shop = await Shop.findById(shopId);
     if (!shop) {
       return res.status(404).json({ message: 'Shop not found' });
     }
-    const addedProducts = await Product.insertMany(products);
-    shop.products.push(...addedProducts.map(product => product._id));
+    const addedProduct = await Product.create(req.body);
+    shop.products.push(addedProduct._id);
     await shop.save();
     res.json({ message: 'Products added to shop successfully', shop });
   } catch (error) {
