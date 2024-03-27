@@ -30,7 +30,7 @@ export const productsApi = createApi({
     }),
     uploadProduct: builder.mutation({
       query: (product) => ({
-        url: `products`,
+        url: `shops/${product.shopId}/products`,
         method: 'POST',
         body: product,
       }),

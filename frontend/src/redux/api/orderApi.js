@@ -9,5 +9,15 @@ export const ordersApi = createApi({
     performSafePayPayment: builder.query({
       query: (price) => `/orders/payment?price=${price}`,
     }),
+    saveOrder: builder.mutation({
+      query: (orderData) => ({
+        url: `/orders`,
+        method: 'POST',
+        body: orderData,
+      }),
+    }),
+    getOrderByShop:builder.query({
+      query: (shopId) => `/orders/byshop/${shopId}`,
+    })
   }),
 })

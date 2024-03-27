@@ -82,8 +82,8 @@ const Cart = () => {
         }, 0);
         // Summing up the delivery fees
         const totalDeliveryFee = Object.values(deliveryFree).reduce((total, fee) => Number(total) + Number(fee), 0);
-        console.log(totalPrice)        
-        const data = JSON.stringify({totalDeliveryFee, totalPrice})
+        const ids = finalProducts.map(p => p._id)      
+        const data = JSON.stringify({totalDeliveryFee, totalPrice, products: ids})
         localStorage.setItem('checkoutInfo',data)
         navigate("/checkout");
 

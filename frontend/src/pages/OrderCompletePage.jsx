@@ -1,6 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { productsApi } from '../redux/api/productApi';
+import { ordersApi } from '../redux/api/orderApi';
 
 const OrderCompletePage = () => {
+    const orderData = JSON.parse(localStorage.getItem('orderData'));
+    const addressInfo = JSON.parse(localStorage.getItem('addressInfo'));
+    const [getProducts, { isError: isErrorProducts, isLoading: isLoadingProducts, data: moreProducts }] = productsApi.useGetProductsDetailListMutation();
+
+    const [saveOrder, { isError, isLoading, data }] = ordersApi.useSaveOrderMutation()
+
+    useEffect(() => {
+        getProducts(orderData?.productIds);
+    }, [])
+
+    console.log(moreProducts)
+
+    useEffect(() => {
+      if(orderData && moreProducts){
+        const order = {
+            products: orderData.productIds,
+            totalPrice: orderData.totalPrice,
+            userId: orderData.userId,
+            shopId: moreProducts[0].shopId
+        }
+        saveOrder(order)
+      }
+    }, [moreProducts])
+
     return (
         <div className="bg-gray-100 min-h-screen flex justify-center items-center">
             <div className="bg-white shadow-md rounded-lg p-8 max-w-xl w-full">
@@ -10,20 +36,22 @@ const OrderCompletePage = () => {
                     <h2 className="text-xl font-semibold mb-4">Order Details</h2>
                     <div className="flex flex-col space-y-2">
                         <div className="flex justify-between">
-                            <span className="font-semibold">Product:</span>
+                            <span className="font-semibold">Order type</span>
+                            <span>
+                                {orderData?.deliveryType === 'deliver' ? "will be delivered" : "will picked from shop"}
+                            </span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold">Products:</span>
                             <span>Product Name</span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="font-semibold">Price:</span>
-                            <span>$100.00</span>
-                        </div>
-                        <div className="flex justify-between">
                             <span className="font-semibold">Quantity:</span>
-                            <span>1</span>
+                            <span>{orderData?.productIds?.length}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="font-semibold">Total:</span>
-                            <span>$100.00</span>
+                            <span>PKR: {orderData?.totalPrice}</span>
                         </div>
                     </div>
                 </div>

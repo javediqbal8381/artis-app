@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { addtoCart, storecheckoutProductsInfo } from '../redux/slices/cartSlice';
 import Loader from '../components/commen/Loader';
 import { shopsApi } from '../redux/api/shopsApi';
+import Chat from '../components/commen/Chat';
 
 const ProductDetail = () => {
 
@@ -16,6 +17,8 @@ const ProductDetail = () => {
     const dispatch = useDispatch();
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
+
 
     const { productId } = useParams();
     const { isError, isLoading, data: product } = productsApi.useGetProductDetailsQuery(productId)
@@ -31,6 +34,8 @@ const ProductDetail = () => {
     if (!product) {
         return <div>Product not found</div>;
     }
+
+    console.log(product.shopId)
 
     const handleThumbnailClick = (index) => {
         setSelectedImageIndex(index);
@@ -102,6 +107,8 @@ const ProductDetail = () => {
                                     <div className="flex gap-4">
                                         <OutlinedButton onClick={() => handleAddToCart(product._id)}>Add to Cart</OutlinedButton>
                                         <OutlinedButton onClick={handleOrderNow}>Order Now</OutlinedButton>
+                                        <OutlinedButton onClick={()=>setIsOpen(true)}>Chat Now</OutlinedButton>
+
                                     </div>
                                 </div>
                                 <div className="bg-white p-6 rounded-lg shadow-md mt-4">
@@ -128,6 +135,9 @@ const ProductDetail = () => {
                                 ))}
                             </div>
                         </>
+                }
+                { isOpen &&
+                    <Chat isOpen={isOpen} setIsOpen={setIsOpen} shopId = {product?.shopId}/>
                 }
             </div>
         </Layout>

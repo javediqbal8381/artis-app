@@ -1,11 +1,12 @@
 // Shops.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BsGeoAlt, BsClock, BsStarFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import StartRatings from '../../components/commen/StartRatings';
 import { shopsApi } from '../../redux/api/shopsApi';
 import Loader from '../../components/commen/Loader'
 import Layout from '../../components/layouts/Layout';
+import { ordersApi } from '../../redux/api/orderApi';
 
 const ArtisShops = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -19,7 +20,7 @@ const ArtisShops = () => {
     description: '',
     image: '',
     products: [],
-    ratingAmount: 0,
+    ratingAmount: 1,
     artisId: localStorage.getItem('userId') // Assuming userId is stored in localStorage
   });
 
@@ -44,12 +45,12 @@ const ArtisShops = () => {
     createShop(formData)
   };
 
+
   return (
     <Layout>
       <div className="container mx-auto mt-8">
         <h2 className="text-3xl font-bold mb-4">Explore Online ArtisShops</h2>
-        <button onClick={() => setIsModalOpen(true)}>CreateShop</button>
-
+        <button className='normal_btn' onClick={() => setIsModalOpen(true)}>Create Shop</button>
 
         {isModalOpen && (
           <div className="inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -131,7 +132,7 @@ const ArtisShops = () => {
                   </button>
                   <button
                     type="submit"
-                    className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
+                    className="bg-blue-500 normal_btn py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
                   >
                     Create Shop
                   </button>
@@ -150,7 +151,7 @@ const ArtisShops = () => {
                 <div onClick={() => gotoShop(shop._id)} key={shop._id} className="bg-white p-6 rounded-lg shadow-md cursor-pointer">
                   <img
                     className="w-full h-40 object-cover mb-4 rounded-md"
-                    src={`./images/${shop.image}`}  // Assuming your images are in the 'images' folder
+                    src={shop.image}  // Assuming your images are in the 'images' folder
                     alt={shop.name}
                   />
                   <h3 className="text-xl font-bold mb-2">{shop.name}</h3>

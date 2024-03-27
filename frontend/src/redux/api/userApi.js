@@ -36,6 +36,16 @@ export const usersApi = createApi({
         method: 'DELETE',
       }),
     }),
+    getUserConversation: builder.query({
+      query: (userId) => `/conversations/${userId}`,
+    }),
+    createUserConversation: builder.mutation({
+      query: (data) => ({
+        url: '/conversations',
+        method: 'POST',
+        body: data
+      }),
+    }),
   }),
 });
 

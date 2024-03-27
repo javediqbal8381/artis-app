@@ -8,7 +8,6 @@ const Products = () => {
   const {isLoading,isError,data:allProducts} = productsApi.useGetAllProductsQuery()
   return (
     <Layout>
-      <div>Products</div>
      {
       isLoading ? 
       <Loader/> :

@@ -23,7 +23,7 @@ const ShopsList = () => {
                             <div onClick={() => gotoShop(shop._id)} key={shop._id} className="bg-white p-6 rounded-lg shadow-md cursor-pointer">
                                 <img
                                     className="w-full h-40 object-cover mb-4 rounded-md"
-                                    src={`./images/${shop.image}`}  // Assuming your images are in the 'images' folder
+                                    src={shop.image}  // Assuming your images are in the 'images' folder
                                     alt={shop.name}
                                 />
                                 <h3 className="text-xl font-bold mb-2">{shop.name}</h3>

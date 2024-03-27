@@ -53,6 +53,7 @@ const Checkout = ({ cartItems }) => {
         // go to payment
         // go to paymentif the product has to be delivered to home
         sessionStorage.setItem('getProduct', "deliver")
+        localStorage.setItem('addressInfo', JSON.stringify(formData))
         navigate('/payment')
         // Handle form submission, e.g., send data to server
     };

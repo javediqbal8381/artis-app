@@ -10,10 +10,18 @@ const Payment = () => {
     const checkoutInfo = JSON.parse(localStorage.getItem('checkoutInfo'));
     const finalPrice = Number(checkoutInfo.totalDeliveryFee) + Number(checkoutInfo.totalPrice)
     const [triggerPayment, { isError, isLoading, data: safePayUrl }] = ordersApi.useLazyPerformSafePayPaymentQuery()
-
+    const products = checkoutInfo.products
+    const deliveryType = sessionStorage.getItem('getProduct');
     const handlePayment = (method) => {
         if (method === 'SafePay') {
             triggerPayment(finalPrice);
+            const orderData = {
+                productIds : products,
+                totalPrice: finalPrice,
+                userId: localStorage.getItem('userId'),
+                deliveryType,
+            };
+            localStorage.setItem('orderData', JSON.stringify(orderData))
         }
     };
 

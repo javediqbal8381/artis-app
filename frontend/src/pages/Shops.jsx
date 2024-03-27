@@ -6,9 +6,12 @@ import { Link } from 'react-router-dom'
 const Shops = () => {
   return (
     <Layout>
-      <div>Shops</div>
-      <Link to='/artis-shops'>My Shop</Link>
-      <ShopsList />
+      <div className='p-4'>
+        <div className='pl-28'>
+          <Link className='normal_btn' to='/artis-shops'>My Shops</Link>
+        </div>
+        <ShopsList />
+      </div>
     </Layout>
   )
 }

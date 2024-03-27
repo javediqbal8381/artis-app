@@ -29,6 +29,16 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgb(178, 139, 95);
   }
+
+  .hero_img{
+    position: absolute;
+    width: 800px;
+    z-index: -1;
+    right: 100px;
+    top: 100px;
+    opacity: .7;
+    /* filter: drop-shadow(30px 10px 4px #4444dd); */
+  }
   
 
 .normal_btn{
@@ -43,10 +53,31 @@
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
+    width: fit-content;
 }
 .normal_btn:hover{
     background-color: #7e603b !important;
     border-radius: 7px 0px 7px 0px;
+}
+
+.outlined_btn{
+  background-color: transparent;
+  background:transparent !important ;
+  padding: 10px 12px 6px 12px;
+  color: #7e603b;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  width: fit-content;
+  outline: solid #7e603b;
+}
+.outlined_btn:hover{
+  background-color: #d9d9d8 !important;
+  border-radius: 7px 0px 7px 0px;
 }
 
 /* CSS */
