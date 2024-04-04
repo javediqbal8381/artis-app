@@ -10,7 +10,9 @@ const Products = () => {
     <Layout>
      {
       isLoading ? 
-      <Loader/> :
+      <div className='w-[100%] h-[90vh]'>
+        <Loader/>
+      </div> :
       <ProductList products={allProducts} />
      }
     </Layout>

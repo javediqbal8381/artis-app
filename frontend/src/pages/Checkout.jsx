@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import DiscountAndPayment from '../components/checkout/DiscoundAndPayment';
 import { productsApi } from '../redux/api/productApi';
 import Loader from '../components/commen/Loader';
+import { Button, Grid, TextField, Typography } from '@mui/material';
 
 const Checkout = ({ cartItems }) => {
     const [itemsToBuy, setItemsToBuy] = useState([])
@@ -91,44 +92,93 @@ const Checkout = ({ cartItems }) => {
                             <br />
                             <h2>Enter Address info below or select pick from shop</h2>
                             <form onSubmit={handleSubmit} className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="name" className="block mb-1">Name</label>
-                                        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="w-full border rounded-md py-2 px-3" required />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="email" className="block mb-1">Email</label>
-                                        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full border rounded-md py-2 px-3" required />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="address" className="block mb-1">Address</label>
-                                    <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} className="w-full border rounded-md py-2 px-3" required />
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="city" className="block mb-1">City</label>
-                                        <input type="text" id="city" name="city" value={formData.city} onChange={handleChange} className="w-full border rounded-md py-2 px-3" required />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="zip" className="block mb-1">ZIP Code</label>
-                                        <input type="text" id="zip" name="zip" value={formData.zip} onChange={handleChange} className="w-full border rounded-md py-2 px-3" required />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="phone" className="block mb-1">Phone Number</label>
-                                        <input type="text" id="phone" name="phone" value={formData.phone} onChange={handleChange} className="w-full border rounded-md py-2 px-3" required />
-                                    </div>
-                                </div>
-                                <h3 className="text-xl font-bold mt-6 mb-2">Selected Products</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                </div>
-                                <button type="submit" className="bg-blue-500 border-2 py-2 px-4 rounded-md hover:bg-blue-600 mt-4">Place Order</button>
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="name"
+                                            name="name"
+                                            label="Name"
+                                            variant="outlined"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="email"
+                                            name="email"
+                                            label="Email"
+                                            variant="outlined"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <TextField
+                                    fullWidth
+                                    id="address"
+                                    name="address"
+                                    label="Address"
+                                    variant="outlined"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="city"
+                                            name="city"
+                                            label="City"
+                                            variant="outlined"
+                                            value={formData.city}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="zip"
+                                            name="zip"
+                                            label="ZIP Code"
+                                            variant="outlined"
+                                            value={formData.zip}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            fullWidth
+                                            id="phone"
+                                            name="phone"
+                                            label="Phone Number"
+                                            variant="outlined"
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Typography variant="h6" gutterBottom>
+                                    Selected Products
+                                </Typography>
+                                {/* Add your selected products display here */}
+                                <Button type="submit" variant="contained" color="primary" sx={{ mt: 4 }}>
+                                    Place Order
+                                </Button>
                             </form>
                             <form onSubmit={handlePickSubmit} className='py-6'>
-                                <div>
+                                {/* <div>
                                     <input id='pickfromshop' type="checkbox" onChange={handlePickFromShop} />
                                     <label htmlFor="pickfromshop">Select if want to Collect your order from our shop location.</label>
-                                </div>
+                                </div> */}
                                 {
                                     pickFromStore &&
                                     <div className='flex flex-col w-48'>

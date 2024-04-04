@@ -10,6 +10,7 @@ import { addtoCart, storecheckoutProductsInfo } from '../redux/slices/cartSlice'
 import Loader from '../components/commen/Loader';
 import { shopsApi } from '../redux/api/shopsApi';
 import Chat from '../components/commen/Chat';
+import { Button } from '@mui/material';
 
 const ProductDetail = () => {
 
@@ -70,10 +71,12 @@ const ProductDetail = () => {
 
     return (
         <Layout>
-            <div className="container mx-auto mt-8 flex flex-col sm:flex-row justify-center">
+            <div className="container mx-auto mt-8 min-h-[90vh] flex flex-col sm:flex-row justify-center">
                 {
                     isLoading || isLoadingProducts || isShopLoading || !moreProducts ?
-                        <Loader />
+                        <div className='h-[100%]'>
+                            <Loader />
+                        </div>
                         :
                         <>
                             <div className="w-full sm:w-2/3">
@@ -105,10 +108,9 @@ const ProductDetail = () => {
                                     />
                                     <br />
                                     <div className="flex gap-4">
-                                        <OutlinedButton onClick={() => handleAddToCart(product._id)}>Add to Cart</OutlinedButton>
-                                        <OutlinedButton onClick={handleOrderNow}>Order Now</OutlinedButton>
-                                        <OutlinedButton onClick={()=>setIsOpen(true)}>Chat Now</OutlinedButton>
-
+                                        <Button variant="outlined" onClick={() => handleAddToCart(product._id)}>Add to Cart</Button>
+                                        <Button variant="outlined" onClick={handleOrderNow}>Order Now</Button>
+                                        <Button variant="outlined" onClick={() => setIsOpen(true)}>Chat Now</Button>
                                     </div>
                                 </div>
                                 <div className="bg-white p-6 rounded-lg shadow-md mt-4">
@@ -136,8 +138,8 @@ const ProductDetail = () => {
                             </div>
                         </>
                 }
-                { isOpen &&
-                    <Chat isOpen={isOpen} setIsOpen={setIsOpen} shopId = {product?.shopId}/>
+                {isOpen &&
+                    <Chat isOpen={isOpen} setIsOpen={setIsOpen} shopId={product?.shopId} />
                 }
             </div>
         </Layout>

@@ -4,18 +4,7 @@ import { io } from 'socket.io-client'
 
 
 const ShopChat = ({ isOpen, setIsOpen, shopId }) => {
-  const [messages, setMessages] = useState([
-    {
-      senderId: "dsakjdhsajk",
-      text: "Hey there!",
-      createdAt: 'dsdsd'
-    },
-    {
-      senderId: "kllkjkljlk",
-      text: "Hi John!",
-      createdAt: '24fdf'
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
 
   const [value, setValue] = useState('');
   const [arivalMessage, setArivalMessage] = React.useState(null);
@@ -36,8 +25,16 @@ const ShopChat = ({ isOpen, setIsOpen, shopId }) => {
   }, [])
 
   const { isError, isLoading, data } = usersApi.useGetUserConversationQuery(shopId);
-  const [createCoversation,] = usersApi.useCreateUserConversationMutation();
+  const [createMessage,] = usersApi.useCreateConversationMessageMutation();
+  const [getConversationMessages, { data: conversationMessages }] = usersApi.useLazyGetConversationMessagesQuery();
+  const [conversationId, setConversationId] = useState(null)
 
+
+  useEffect(() => {
+    if (conversationMessages) {
+      setMessages(conversationMessages)
+    }
+  }, [conversationMessages])
 
   useEffect(() => {
     if (data) {
@@ -48,7 +45,8 @@ const ShopChat = ({ isOpen, setIsOpen, shopId }) => {
       });
       if (conversation.length > 0) {
         // user has already conversation with the shop
-        console.log(conversation)
+        getConversationMessages(conversation[0]._id)
+        setConversationId(conversation[0]._id)
         const id = conversation[0].members.find(m => m !== shopId)
         id && setReciverId(id);
       }
@@ -75,12 +73,18 @@ const ShopChat = ({ isOpen, setIsOpen, shopId }) => {
       text: value
     })
   };
-
   React.useEffect(() => {
-    arivalMessage && data && data.length > 0 &&
-      data[0]?.members.includes(arivalMessage.sender) &&
+    if (arivalMessage && data && data.length > 0 && data[0]?.members.includes(arivalMessage.sender)) {
       setMessages((prev) => [...prev, arivalMessage])
+      const msgData = {
+        sender: arivalMessage.sender,
+        text: arivalMessage.text,
+        conversationId: conversationId
+      }
+      createMessage(msgData)
+    }
   }, [arivalMessage, data])
+
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
@@ -98,14 +102,15 @@ const ShopChat = ({ isOpen, setIsOpen, shopId }) => {
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${message.senderId == shopId ? 'justify-normal' : 'justify-end'}`}
+              className={`flex ${message.sender !== shopId ? 'justify-normal' : 'justify-end'}`}
             >
               <div
                 className={`p-2 rounded-lg w-52 mb-2 
-                 ${message.userId == 1 ? "bg-white text-db self-end" : "bg-db text-white"}`}
+                 ${message.sender == shopId == 1 ? "bg-white text-db self-end" : "bg-db text-white"}`}
               >
-                <p className="text-sm">{message.senderId}</p>
-                <p className="text-lg">{message.text}</p>
+                <audio src={message.text} controls={true}>
+
+                </audio>
                 <p className="text-xs text-gray-500">{message.createdAt}</p>
               </div>
             </div>

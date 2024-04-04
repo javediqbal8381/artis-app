@@ -1,25 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { usersApi } from "../../redux/api/userApi";
 import { io } from 'socket.io-client'
+import { AudioRecorder } from "react-audio-voice-recorder";
+import { BsRecordCircle } from "react-icons/bs";
+
 
 
 const Chat = ({ isOpen, setIsOpen, shopId }) => {
-  const [messages, setMessages] = useState([
-    {
-      senderId: "dsakjdhsajk",
-      text: "Hey there!",
-      createdAt: 'dsdsd'
-    },
-    {
-      senderId: "kllkjkljlk",
-      text: "Hi John!",
-      createdAt: '24fdf'
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
 
   const [value, setValue] = useState('');
   const [arivalMessage, setArivalMessage] = React.useState(null);
   const [receiverId, setReciverId] = useState(null)
+  const [conversationId, setConversationId] = useState(null);
+  const [messageType, setMessageType] = React.useState('text')
 
   const socket = useRef();
 
@@ -39,6 +33,15 @@ const Chat = ({ isOpen, setIsOpen, shopId }) => {
 
   const { isError, isLoading, data } = usersApi.useGetUserConversationQuery(userId);
   const [createCoversation,] = usersApi.useCreateUserConversationMutation();
+  const [createMessage,] = usersApi.useCreateConversationMessageMutation();
+  const [getConversationMessages, { data: conversationMessages }] = usersApi.useLazyGetConversationMessagesQuery()
+
+
+  useEffect(() => {
+    if (conversationMessages) {
+      setMessages(conversationMessages)
+    }
+  }, [conversationMessages])
 
 
   useEffect(() => {
@@ -50,14 +53,15 @@ const Chat = ({ isOpen, setIsOpen, shopId }) => {
       });
       if (conversation.length > 0) {
         // user has already conversation with the shop
-        console.log(conversation)
+        getConversationMessages(conversation[0]._id)
+        setConversationId(conversation[0]._id)
         const id = conversation[0].members.find(m => m !== userId)
         id && setReciverId(id);
       }
       else {
         // create conversation
         createCoversation({
-          receiverId : shopId,
+          receiverId: shopId,
           senderId: userId,
         })
       }
@@ -86,10 +90,34 @@ const Chat = ({ isOpen, setIsOpen, shopId }) => {
   };
 
   React.useEffect(() => {
-    arivalMessage && data && data.length > 0 &&
-      data[0]?.members.includes(arivalMessage.sender) &&
+    if (arivalMessage && data && data.length > 0 && data[0]?.members.includes(arivalMessage.sender)) {
       setMessages((prev) => [...prev, arivalMessage])
+      const msgData = {
+        sender: arivalMessage.sender,
+        text: arivalMessage.text,
+        conversationId: conversationId,
+      }
+      createMessage(msgData)
+    }
   }, [arivalMessage, data])
+
+  const addAudioElement = (blob) => {
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+      const base64String = event.target.result;
+      socket.current.emit("sendMessage", {
+        senderId: userId,
+        receiverId: shopId,
+        text: base64String
+      });
+    };
+  
+    reader.readAsDataURL(blob);
+  };
+  
+
+  console.log(messages)
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
@@ -107,27 +135,48 @@ const Chat = ({ isOpen, setIsOpen, shopId }) => {
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${message.senderId == userId ? 'justify-normal' : 'justify-end'}`}
+              className={`flex ${message.sender !== userId ? 'justify-normal' : 'justify-end'}`}
             >
               <div
                 className={`p-2 rounded-lg w-52 mb-2 
-                 ${message.userId == 1 ? "bg-white text-db self-end" : "bg-db text-white"}`}
+                 ${message.sender == shopId ? "bg-white text-db self-end" : "bg-db text-white"}`}
               >
-                <p className="text-sm">{message.senderId}</p>
-                <p className="text-lg">{message.text}</p>
+                {
+                  // "text" == "text" ? 
+                  <p className="text-lg">{message.text}</p>
+                  // :
+                  // <audio src={message.text} controls={true}>
+
+                  // </audio>
+                }
                 <p className="text-xs text-gray-500">{message.createdAt}</p>
               </div>
             </div>
           ))}
         </div>
         <div className="mt-4">
-          <input
-            type="text"
-            placeholder="Type your message..."
-            className="w-full border rounded-md p-2"
-            onChange={e => setValue(e.target.value)}
-            value={value}
-          />
+          {messageType === 'text' ?
+            <>
+            <input
+              type="text"
+              placeholder="Type your message..."
+              className="w-full border rounded-md p-2"
+              onChange={e => { setValue(e.target.value); setMessageType('text') }}
+              value={value}
+            />
+            <BsRecordCircle  onClick={() =>setMessageType('audio')}/>
+
+            </>
+            :
+            <AudioRecorder
+              onRecordingComplete={addAudioElement}
+              audioTrackConstraints={{
+                noiseSuppression: true,
+                echoCancellation: true,
+              }}
+              // downloadOnSavePress={true}
+              downloadFileExtension="webm"
+            />}
           <button onClick={sendMessage} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Send
           </button>

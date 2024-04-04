@@ -46,6 +46,16 @@ export const usersApi = createApi({
         body: data
       }),
     }),
+    createConversationMessage: builder.mutation({
+      query: (data) => ({
+        url: '/messages',
+        method: 'POST',
+        body: data
+      }),
+    }),
+    getConversationMessages: builder.query({
+      query: (conversationId) => `/messages/${conversationId}`,
+    }),
   }),
 });
 

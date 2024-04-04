@@ -13,7 +13,7 @@ const ShopsList = () => {
     }
     const { isLoading, isError, data: shops } = shopsApi.useGetAllShopsQuery()
     return (
-        <div className="container mx-auto mt-8">
+        <div className="container mx-auto mt-8 min-h-[90vh]">
             <h2 className="text-3xl font-bold mb-4">Explore Online ShopsList</h2>
             {
                 isLoading ?

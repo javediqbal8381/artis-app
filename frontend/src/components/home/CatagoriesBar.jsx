@@ -1,21 +1,52 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 
 const CategoriesBar = () => {
     return (
-        <div className="flex w-full flex-col h-full bg-gray-200 sm:w-48">
-            <ul className="flex flex-col p-4">
-            <li className='pl-5 p-2 w-full border-2 font-bold bg-lb'>Collections</li>
-                <li className="my-2"><Link to="/products/catagory/paintings/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Paintings</Link></li>
-                <li className="my-2"><Link to="/products/catagory/pottery/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Pottery</Link></li>
-                <li className="my-2"><Link to="/products/catagory/glass/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Glass</Link></li>
-                <li className="my-2"><Link to="/products/catagory/home-decor/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Home Decor</Link></li>
-                <li className="my-2"><Link to="/products/catagory/garden/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Garden</Link></li>
-                <li className="my-2"><Link to="/products/catagory/fabric/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Fabric</Link></li>
-                <li className="my-2"><Link to="/products/catagory/wood/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Wood</Link></li>
-                <li className="my-2"><Link to="/products/catagory/fine-craft/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Fine Craft</Link></li>
-                <li className="my-2"><Link to="/products/catagory/personalization/" className="block px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400">Personalization</Link></li>
-            </ul>
+        <div
+            variant="permanent"
+            sx={{
+                width: 240,
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                    width: 240,
+                    backgroundColor: '#f3f4f6' // Set your desired background color
+                },
+            }}
+        >
+            <List>
+                <ListItem disablePadding className="pl-5 p-2 w-full font-bold bg-lb">
+                    <ListItemText primary="Collections" />
+                </ListItem>
+                <ListItemButton component={Link} to="/products/catagory/paintings/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Paintings" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/products/catagory/pottery/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Pottery" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/products/catagory/glass/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Glass" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/products/catagory/home-decor/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Home Decor" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/products/catagory/garden/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Garden" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/products/catagory/fabric/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Fabric" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/products/catagory/wood/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Wood" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/products/catagory/fine-craft/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Fine Craft" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/products/catagory/personalization/" className="my-2" sx={{ borderRadius: '8px' }}>
+                    <ListItemText primary="Personalization" />
+                </ListItemButton>
+            </List>
         </div>
     );
 }

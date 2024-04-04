@@ -8,7 +8,7 @@ exports.createMessage = async (req, res) => {
         const savedMessage = await newMessage.save()
         res.status(200).json(savedMessage)
     } catch (error) {
-        res.status(500).json(err)
+        res.status(500).json(error)
     }
 }
 
