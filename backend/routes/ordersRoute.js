@@ -6,7 +6,11 @@ const ordersController = require('../controllers/ordersController')
 
 router.get('/payment',ordersController.payment)
 
+router.get('/',ordersController.getAllOrders)
+
 router.post('/',ordersController.createOrder)
+
+router.delete('/:orderId',ordersController.deleteOrder)
 
 router.get('/byshop/:shopId', ordersController.getOrdersByShop)
 

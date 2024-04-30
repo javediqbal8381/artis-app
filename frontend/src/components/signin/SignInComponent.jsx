@@ -13,7 +13,9 @@ const navigate = useNavigate()
   
   if(data) {
     localStorage.setItem('token',data.token);
-    localStorage.setItem('userId',data.userId)
+    localStorage.setItem('userId',data.userId);
+    localStorage.setItem('userRole',data.role)
+
     navigate('/')
   }
   const handleSubmit = async (e) => {

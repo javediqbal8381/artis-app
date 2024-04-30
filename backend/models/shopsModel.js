@@ -38,7 +38,6 @@ const shopSchema = new mongoose.Schema({
   },
   ratingAmount: {
     type: Number,
-    required: true
 }
 });
 

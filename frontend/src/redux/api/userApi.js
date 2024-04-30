@@ -31,8 +31,8 @@ export const usersApi = createApi({
       query: () => '/users/userinfo',
     }),
     deleteUser: builder.mutation({
-      query: () => ({
-        url: '/users/delete',
+      query: (userId) => ({
+        url: `/users/${userId}`,
         method: 'DELETE',
       }),
     }),
@@ -55,6 +55,9 @@ export const usersApi = createApi({
     }),
     getConversationMessages: builder.query({
       query: (conversationId) => `/messages/${conversationId}`,
+    }),
+    getAllUsers: builder.query({
+      query: () => '/users',
     }),
   }),
 });

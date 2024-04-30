@@ -18,10 +18,10 @@ exports.signIn = async (req, res) => {
     }
     // Create and return a JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    res.json({ token, userId: user._id });
+    res.json({ token, userId: user._id, role: user.role });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -68,6 +68,17 @@ exports.getAllUsers = async (req, res) => {
   try {
     const user = await User.find();
     res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// get all users 
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.userId);
+    res.json({message:"User deleted"});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

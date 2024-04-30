@@ -18,6 +18,15 @@ export const ordersApi = createApi({
     }),
     getOrderByShop:builder.query({
       query: (shopId) => `/orders/byshop/${shopId}`,
-    })
+    }),
+    getAllOrders: builder.query({
+      query: () => `/orders`,
+    }),
+    deleteOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/orders/${orderId}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 })

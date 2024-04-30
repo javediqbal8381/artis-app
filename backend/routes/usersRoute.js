@@ -5,6 +5,8 @@ const usersController = require('../controllers/usersController');
 // Route to get all users
 router.get('/', usersController.getAllUsers);
 
+router.delete('/:userId', usersController.deleteUser);
+
 // Route to sign in
 router.post('/signin', usersController.signIn);
 

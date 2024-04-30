@@ -3,6 +3,7 @@ import { usersApi } from "../../redux/api/userApi";
 import { io } from 'socket.io-client'
 import { AudioRecorder } from "react-audio-voice-recorder";
 import { BsRecordCircle } from "react-icons/bs";
+import { FaMicrophone } from "react-icons/fa";
 
 
 
@@ -22,11 +23,11 @@ const Chat = ({ isOpen, setIsOpen, shopId }) => {
   React.useEffect(() => {
     socket.current = io("ws://localhost:4000");
     socket.current.on("sendMessage", data => {
-      console.log(data)
       setArivalMessage({
         sender: data.senderId,
         text: data.text,
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        type: data.type,
       })
     })
   }, [])
@@ -81,43 +82,91 @@ const Chat = ({ isOpen, setIsOpen, shopId }) => {
     setIsOpen(!isOpen);
   };
 
-  const sendMessage = (message) => {
-    socket.current.emit("sendMessage", {
-      senderId: userId,
-      receiverId: shopId,
-      text: value
-    })
+  const sendMessage = async (message) => {
+    if (messageType == "audio") {
+      const audioLink = await uploadAudio(value);
+      setValue("")
+      socket.current.emit("sendMessage", {
+        senderId: userId,
+        receiverId: shopId,
+        text: audioLink,
+        type: messageType
+      })
+      const msgData = {
+        sender: userId,
+        text: audioLink,
+        conversationId: conversationId,
+        type: messageType,
+      }
+      if (conversationId) {
+        createMessage(msgData);
+        const date = new Date
+        setMessages((prev) => [...prev, {
+          ...msgData,
+          createdAt: date.toLocaleString(),
+        }])
+      }
+    } else {
+      socket.current.emit("sendMessage", {
+        senderId: userId,
+        receiverId: shopId,
+        text: value
+      })
+      console.log("first")
+      const msgData = {
+        sender: userId,
+        text: value,
+        conversationId: conversationId,
+        type: messageType,
+      }
+      if (conversationId) {
+        createMessage(msgData);
+        const date = new Date
+        setMessages((prev) => [...prev, {
+          ...msgData,
+          createdAt: date.toLocaleString(),
+        }])
+      }
+    }
+
+    setMessageType("text");
   };
 
   React.useEffect(() => {
     if (arivalMessage && data && data.length > 0 && data[0]?.members.includes(arivalMessage.sender)) {
       setMessages((prev) => [...prev, arivalMessage])
-      const msgData = {
-        sender: arivalMessage.sender,
-        text: arivalMessage.text,
-        conversationId: conversationId,
-      }
-      createMessage(msgData)
     }
   }, [arivalMessage, data])
 
   const addAudioElement = (blob) => {
-    const reader = new FileReader();
-    
-    reader.onload = function(event) {
-      const base64String = event.target.result;
-      socket.current.emit("sendMessage", {
-        senderId: userId,
-        receiverId: shopId,
-        text: base64String
-      });
-    };
-  
-    reader.readAsDataURL(blob);
+    setValue(blob)
   };
-  
 
-  console.log(messages)
+  const uploadAudio = async (audio) => {
+    const data = new FormData();
+    data.append("file", audio);
+    data.append(
+      "upload_preset",
+      import.meta.env.VITE_APP_CLOUDINARY_UPLOAD_PRESET
+    );
+    data.append("cloud_name", import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME);
+    data.append("folder", "artis-app");
+
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME}/video/upload`,
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const res = await response.json();
+      // Assuming you want to set the URL of the uploaded audio file
+      return res.secure_url;
+    } catch (error) {
+      console.error("Error uploading audio:", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
@@ -138,45 +187,50 @@ const Chat = ({ isOpen, setIsOpen, shopId }) => {
               className={`flex ${message.sender !== userId ? 'justify-normal' : 'justify-end'}`}
             >
               <div
-                className={`p-2 rounded-lg w-52 mb-2 
-                 ${message.sender == shopId ? "bg-white text-db self-end" : "bg-db text-white"}`}
+                className={`p-2 rounded-lg w-72 mb-2 
+                 ${message.sender !== shopId ? "bg-white text-db self-end" : "bg-db text-white"}`}
               >
                 {
-                  // "text" == "text" ? 
-                  <p className="text-lg">{message.text}</p>
-                  // :
-                  // <audio src={message.text} controls={true}>
+                  message.type == "audio" ?
+                    <audio className="w-64" src={message.text} controls={true}>
 
-                  // </audio>
+                    </audio>
+                    :
+                    <p className="text-lg">{message.text}</p>
                 }
-                <p className="text-xs text-gray-500">{message.createdAt}</p>
+
+                <p className="text-xs text-gray-500">{new Date(message.createdAt).toLocaleString()}</p>
               </div>
             </div>
           ))}
         </div>
-        <div className="mt-4">
+        <div className="mt-4 flex items-center">
           {messageType === 'text' ?
             <>
-            <input
-              type="text"
-              placeholder="Type your message..."
-              className="w-full border rounded-md p-2"
-              onChange={e => { setValue(e.target.value); setMessageType('text') }}
-              value={value}
-            />
-            <BsRecordCircle  onClick={() =>setMessageType('audio')}/>
-
+              <input
+                type="text"
+                placeholder="Type your message..."
+                className="w-full border rounded-md p-2"
+                onChange={e => { setValue(e.target.value); setMessageType('text') }}
+                value={value}
+              />
+              <FaMicrophone onClick={() => setMessageType('audio')} />
             </>
             :
-            <AudioRecorder
-              onRecordingComplete={addAudioElement}
-              audioTrackConstraints={{
-                noiseSuppression: true,
-                echoCancellation: true,
-              }}
-              // downloadOnSavePress={true}
-              downloadFileExtension="webm"
-            />}
+            <>
+              <AudioRecorder
+                onRecordingComplete={addAudioElement}
+                audioTrackConstraints={{
+                  noiseSuppression: true,
+                  echoCancellation: true,
+                }}
+                // downloadOnSavePress={true}
+                downloadFileExtension="webm"
+              />
+              <button onClick={() => setMessageType('text')} >cancel</button>
+
+            </>
+          }
           <button onClick={sendMessage} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Send
           </button>

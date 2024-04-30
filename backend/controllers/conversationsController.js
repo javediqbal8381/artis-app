@@ -4,7 +4,7 @@ const Conversation = require("../models/conversationsModel");
 // Get orders by shop
 exports.createConversation = async (req, res) => {
     const newConversation = new Conversation({
-        members: [req.body.senderId, req.body.recieverId]
+        members: [req.body.senderId, req.body.receiverId]
     })
 
     try {

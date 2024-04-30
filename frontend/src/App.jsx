@@ -22,6 +22,7 @@ import ArtisShops from './pages/artis/ArtisShops';
 import ArtisShopDetail from './pages/artis/ArtisShopDetail';
 import ErrorPage from './components/commen/ErrorPage';
 import Dashboard from './pages/admin/dashboard';
+import AdminRoutes from './components/AdminRoutes';
 
 
 
@@ -30,23 +31,28 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/home",
       element: <Home />,
-      errorElement: <ErrorPage/>
+      errorElement: <ErrorPage />
     },
     {
       path: "/signup",
       element: <SignUp />,
-      errorElement: <ErrorPage/>
+      errorElement: <ErrorPage />
     },
     {
       path: "/signin",
       element: <SignIn />,
-      errorElement: <ErrorPage/>
+      errorElement: <ErrorPage />
     },
     {
       element: <ProtectedRoutes />,
       children: [
+        {
+          path: "/",
+          element: <Home />,
+          errorElement: <ErrorPage />
+        },
         {
           path: "/about",
           element: <About />,
@@ -99,12 +105,21 @@ function App() {
           path: "/artis-shop-detail/:shopId",
           element: <ArtisShopDetail />,
         },
+      ],
+      // errorElement: <ErrorPage/>
+    },
+    {
+      element: <AdminRoutes />,
+      children: [
+        {
+          path: "/",
+          element: <Dashboard />,
+        },
         {
           path: "/admin/dashboard",
           element: <Dashboard />,
         }
-      ],
-      // errorElement: <ErrorPage/>
+      ]
     }
   ]);
 

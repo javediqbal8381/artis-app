@@ -6,6 +6,7 @@ import cartSlice from './slices/cartSlice'
 import { shopsApi } from './api/shopsApi'
 import { ordersApi } from './api/orderApi'
 import { usersApi } from './api/userApi'
+import { analyticsApi } from './api/analyticsApi'
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,8 @@ export const store = configureStore({
     [shopsApi.reducerPath]: shopsApi.reducer,
     [ordersApi.reducerPath]: ordersApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
+    [analyticsApi.reducerPath]: analyticsApi.reducer,
+
     cart: cartSlice
   },
   // Adding the api middleware enables caching, invalidation, polling,
@@ -23,7 +26,8 @@ export const store = configureStore({
       productsApi.middleware,
       shopsApi.middleware,
       ordersApi.middleware,
-      usersApi.middleware
+      usersApi.middleware,
+      analyticsApi.middleware,
     ),
 })
 

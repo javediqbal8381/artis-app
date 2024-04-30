@@ -7,6 +7,7 @@ import { FiTrash2 } from "react-icons/fi";
 import Loader from '../../components/commen/Loader';
 import { ordersApi } from '../../redux/api/orderApi';
 import ShopChat from '../../components/ShopChat/ShopChat';
+import { Button, Dialog, TextField, TextareaAutosize } from '@mui/material';
 
 
 const ArtisShopDetail = () => {
@@ -96,140 +97,148 @@ const ArtisShopDetail = () => {
         <p className="mb-4">Location: {shop?.location}</p>
         <p className="mb-4">Website: <a href={shop?.website} target="_blank" rel="noreferrer">{shop?.website}</a></p>
         <p className="mb-4">Description: {shop?.description}</p>
-        <button className='normal_btn' onClick={() => setIsModalOpen(true)}>Upload Products</button>
+        <Button variant='contained' onClick={() => setIsModalOpen(true)}>Upload Products</Button>
         <br />
         {isModalOpen && (
           <div className=" inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-8 rounded-lg w-full max-w-md">
               <h3 className="text-xl font-bold mb-4">Upload Product</h3>
               <form onSubmit={handleUploadProduct} className="space-y-4">
-                {/* Add form fields for product data */}
                 <div className="flex flex-col">
                   <label htmlFor="category" className="text-sm font-semibold mb-1">Category:</label>
-                  <input
-                    type="text"
+                  <TextField
                     id="category"
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
+                    variant="outlined"
+                    fullWidth
                   />
                 </div>
                 <div className="flex flex-col">
                   <label htmlFor="name" className="text-sm font-semibold mb-1">Name:</label>
-                  <input
-                    type="text"
+                  <TextField
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
+                    variant="outlined"
+                    fullWidth
                   />
                 </div>
                 <div className="flex flex-col">
                   <label htmlFor="artisan" className="text-sm font-semibold mb-1">Artisan:</label>
-                  <input
-                    type="text"
+                  <TextField
                     id="artisan"
                     name="artisan"
                     value={formData.artisan}
                     onChange={handleInputChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
+                    variant="outlined"
+                    fullWidth
                   />
                 </div>
                 <div className="flex flex-col">
                   <label htmlFor="price" className="text-sm font-semibold mb-1">Price:</label>
-                  <input
-                    type="text"
+                  <TextField
                     id="price"
                     name="price"
                     value={formData.price}
                     onChange={handleInputChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
+                    variant="outlined"
+                    fullWidth
                   />
                 </div>
                 <div className="flex flex-col">
                   <label htmlFor="description" className="text-sm font-semibold mb-1">Description:</label>
-                  <textarea
+                  <TextareaAutosize
                     id="description"
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
                     className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-                  ></textarea>
+                    minRows={3}
+                    style={{ width: '100%', resize: 'vertical' }}
+                  />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="deliveryFee" className="text-sm font-semibold mb-1">delivery Fee:</label>
-                  <textarea
+                  <label htmlFor="deliveryFee" className="text-sm font-semibold mb-1">Delivery Fee:</label>
+                  <TextField
                     id="deliveryFee"
                     name="deliveryFee"
                     value={formData.deliveryFee}
                     onChange={handleInputChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-                  ></textarea>
+                    variant="outlined"
+                    fullWidth
+                  />
                 </div>
                 <div className="flex flex-col">
                   <label htmlFor="image1" className="text-sm font-semibold mb-1">Image 1:</label>
-                  <input
-                    type="text"
+                  <TextField
                     id="image1"
                     name="images[0]"
                     value={formData.images[0]}
-                    onChange={e => handleImageChange(0, e.target.value)} // Call handleImageChange with the index and new value
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
+                    onChange={e => handleImageChange(0, e.target.value)}
+                    variant="outlined"
+                    fullWidth
                   />
                 </div>
                 <div className="flex flex-col">
                   <label htmlFor="image2" className="text-sm font-semibold mb-1">Image 2:</label>
-                  <input
-                    type="text"
+                  <TextField
                     id="image2"
                     name="images[1]"
                     value={formData.images[1]}
-                    onChange={e => handleImageChange(1, e.target.value)} // Call handleImageChange with the index and new value
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
+                    onChange={e => handleImageChange(1, e.target.value)}
+                    variant="outlined"
+                    fullWidth
                   />
                 </div>
                 <div className="flex flex-col">
                   <label htmlFor="image3" className="text-sm font-semibold mb-1">Image 3:</label>
-                  <input
-                    type="text"
+                  <TextField
                     id="image3"
                     name="images[2]"
                     value={formData.images[2]}
-                    onChange={e => handleImageChange(2, e.target.value)} // Call handleImageChange with the index and new value
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
+                    onChange={e => handleImageChange(2, e.target.value)}
+                    variant="outlined"
+                    fullWidth
                   />
                 </div>
                 <div className="flex justify-between">
-                  <button
-                    type="button"
+                  <Button
+                    variant="contained"
+                    color="error"
                     onClick={() => setIsModalOpen(false)}
-                    className="bg-red-500 py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-400"
                   >
                     Cancel
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
                     type="submit"
-                    className="bg-blue-500 normal_btn py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
                   >
                     Upload
-                  </button>
+                  </Button>
                 </div>
               </form>
             </div>
           </div>
         )}
         <br />
-        <p onClick={handleDeleteShop} className='flex text-center justify-between w-28'>Delete Shop<FiTrash2 color='red' /></p>
-        <br />
+        <Button
+          variant="outlined"
+          color="error"
+          startIcon={<FiTrash2 />}
+          onClick={handleDeleteShop}
+        >
+          Delete Shop
+        </Button>        <br />
         <div className='flex gap-5'>
-          <button onClick={() => setShowOrders(false)} className={showOrders ? `outlined_btn` : `normal_btn`}>Products</button>
-          <button onClick={() => setShowOrders(true)} className={showOrders ? `normal_btn` : `outlined_btn`}>Orders</button>
-          <button onClick={() => setIsOpen(true)} className={isOpen ? `normal_btn` : `outlined_btn`}>Open Chat</button>
-
+          <Button onClick={() => setShowOrders(false)} variant={showOrders ? 'outlined' : 'contained'}>Products</Button>
+          <Button onClick={() => setShowOrders(true)} variant={showOrders ? 'contained' : 'outlined'}>Orders</Button>
+          <Button onClick={() => setIsOpen(true)} variant={isOpen ? 'contained' : 'outlined'}>Open Chat</Button>
         </div>
-        <br/>
+        <br />
         {!showOrders ?
           <>
             <h2 className="text-xl font-semibold mb-4">Products</h2>
@@ -285,8 +294,11 @@ const ArtisShopDetail = () => {
           </>
         }
       </div>
-      {isOpen && 
-            <ShopChat isOpen={isOpen} setIsOpen={setIsOpen} shopId={shopId}/>
+      {isOpen &&
+        <Dialog open={isOpen}>
+          <ShopChat isOpen={isOpen} setIsOpen={setIsOpen} shopId={shopId} />
+
+        </Dialog>
       }
     </Layout>
   );

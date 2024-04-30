@@ -13,6 +13,7 @@ const shopsRoute = require('./routes/shopsRoute');
 const orderRoute = require('./routes/ordersRoute');
 const conversationsRoute = require('./routes/conversationsRoute');
 const messagesRoute = require('./routes/messagesRoute');
+const analyticsRoute = require('./controllers/analyticsController')
 
 
 
@@ -49,12 +50,16 @@ io.on('connection', (socket) => {
         io.emit("getUsers", users)
     })
 
-    socket.on("sendMessage",({senderId,receiverId, text}) => {
+    socket.on("sendMessage", ({ senderId, receiverId, text, type }) => {
+        console.log(text)
         const user = getUser(receiverId)
-        io.to(user.socketId).emit("sendMessage", {
-            senderId,
-            text
-        })
+        if (user) {
+            io.to(user.socketId).emit("sendMessage", {
+                senderId,
+                text,
+                type,
+            })
+        }
     })
 
     socket.on("disconnect", () => {
@@ -82,6 +87,9 @@ app.use('/api/shops', shopsRoute);
 
 //Use orders route
 app.use('/api/orders', orderRoute);
+
+//Use analytics route
+app.use('/api/analytics', analyticsRoute);
 
 // chat
 app.use('/api/conversations', conversationsRoute);
