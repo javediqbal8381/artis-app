@@ -89,14 +89,18 @@ exports.deleteUser = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
   try {
     const { id } = req.params;
-    const { email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const updatedUser = await User.findByIdAndUpdate(id, { email, password: hashedPassword }, { new: true });
-    if (!updatedUser) {
+    const { email, password, active } = req.body;
+    const hashedPassword = await bcrypt.hash(password || "", 10);
+    const user = await User.findById(id);
+    user.password = password ? hashedPassword : user.password;
+    user.email = email || user.email;
+    user.active = active !== undefined ? active : user.active;
+    await user.save()
+    if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.json(updatedUser);
+    res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

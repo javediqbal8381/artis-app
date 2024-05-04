@@ -12,6 +12,9 @@ router.post('/',ordersController.createOrder)
 
 router.delete('/:orderId',ordersController.deleteOrder)
 
+router.put('/:orderId',ordersController.editOrder)
+
+
 router.get('/byshop/:shopId', ordersController.getOrdersByShop)
 
 module.exports =router

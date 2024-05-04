@@ -28,5 +28,12 @@ export const ordersApi = createApi({
         method: 'DELETE',
       }),
     }),
+    updateOrder: builder.mutation({
+      query: ({orderId, orderData}) => ({
+        url: `/orders/${orderId}`,
+        method: 'PUT',
+        body: orderData,
+      }),
+    }),
   }),
 })

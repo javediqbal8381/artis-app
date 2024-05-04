@@ -24,7 +24,7 @@ exports.payment = async (req, res) => {
             webhooks: true
         })
         // redirect user to `url`
-      res.status(200).json(url)
+        res.status(200).json(url)
     } catch (error) {
         res.status(500).json(error)
     }
@@ -114,6 +114,37 @@ exports.getOrdersByShop = async (req, res) => {
     } catch (error) {
         console.error('Error fetching orders by shop:', error);
         res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// Update an existing order
+exports.editOrder = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const { status, totalPrice, address, zip, phone } = req.body;
+console.log(req.body)
+        // Check if the order exists
+        const existingOrder = await Order.findById(orderId);
+        if (!existingOrder) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        // Update the order fields
+        existingOrder.status = status || existingOrder.status;
+        existingOrder.totalPrice = totalPrice || existingOrder.totalPrice;
+        existingOrder.address = address || existingOrder.address;
+        existingOrder.zip = zip || existingOrder.zip;
+        existingOrder.phone = phone || existingOrder.phone;
+
+        existingOrder.updatedAt = Date.now();
+
+        // Save the updated order
+        const updatedOrder = await existingOrder.save();
+
+        res.json({ message: 'Order updated successfully', order: updatedOrder });
+    } catch (error) {
+        console.error('Error updating order:', error);
+        res.status(500).json({ message: error.message });
     }
 };
 

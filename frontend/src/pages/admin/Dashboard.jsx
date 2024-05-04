@@ -6,7 +6,7 @@ import ManageUsers from './ManageUsers';
 import Assets from './Assets';
 
 const Dashboard = () => {
-  const [tab, setTab] = useState("home"); // Initialize tab state with "home"
+  const [tab, setTab] = useState("analytics"); // Initialize tab state with "home"
 
   return (
     <div className='flex gap-2'>

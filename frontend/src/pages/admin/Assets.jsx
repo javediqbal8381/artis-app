@@ -24,58 +24,14 @@ import { productsApi } from '../../redux/api/productApi'
 import { shopsApi } from '../../redux/api/shopsApi';
 import { ordersApi } from '../../redux/api/orderApi';
 
-
-// Dummy data (replace with actual data from API)
-const dummyData = [
-  // Sample data for products
-  {
-    id: 1,
-    name: 'Product 1',
-    category: 'Category 1',
-    price: '$10',
-    description: 'Description of Product 1'
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    category: 'Category 2',
-    price: '$20',
-    description: 'Description of Product 2'
-  },
-  // Sample data for shops
-  {
-    id: 1,
-    name: 'Shop 1',
-    location: 'Location 1',
-    rating: 4.5
-  },
-  {
-    id: 2,
-    name: 'Shop 2',
-    location: 'Location 2',
-    rating: 3.8
-  },
-  // Sample data for orders
-  {
-    id: 1,
-    orderId: 1234,
-    products: ['Product 1', 'Product 2'],
-    totalPrice: '$30',
-    userId: 'User 1'
-  },
-  {
-    id: 2,
-    orderId: 5678,
-    products: ['Product 2', 'Product 3'],
-    totalPrice: '$40',
-    userId: 'User 2'
-  }
-];
-
 const Assets = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const [updatedProductData, setUpdatedProductData] = useState({})
+  const [updatedOrderData, setUpdatedOrderData] = useState({});
+  const [updatedShopData, setUpdatedShopData] = useState({});
 
   const handleChangeTab = (event, newValue) => {
     setCurrentTab(newValue);
@@ -90,10 +46,9 @@ const Assets = () => {
     setOpenDialog(false);
   };
 
-  const handleDeleteItem = (id) => {
-    // Delete item logic (to be implemented)
-    console.log(`Delete item with ID ${id}`);
-  };
+  const [updateProduct, { isError: isEditingProductError }] = productsApi.useUpdateProductMutation()
+  const [updateShop, { isError: isEditingShopError }] = shopsApi.useUpdateShopMutation()
+  const [updateOrder, { isError: isEditingOrderError }] = ordersApi.useUpdateOrderMutation()
 
   const { data: products, isLoadingproductsLoading, isError: isProductsError, refetch: refetchProducts } = productsApi.useGetAllProductsQuery()
   const [deleteProduct, { isError: isDeletingProductError, }] = productsApi.useDeleteProductMutation();
@@ -103,6 +58,41 @@ const Assets = () => {
 
   const { data: orders, isLoadingOrdersLoading, isError: isOrdersError, refetch: refetchOrders } = ordersApi.useGetAllOrdersQuery();
   const [deleteOrder, { isError: isDeletingOrderError, }] = ordersApi.useDeleteOrderMutation();
+
+
+  const handleSaveChanges = async () => {
+    try {
+      if (currentTab === 0) {
+        // Save edited product
+        updateProduct({ productId: selectedItem._id, updatedProductData });
+        setTimeout(() => {
+          refetchProducts()
+        }, 3000);
+      } else if (currentTab === 1) {
+        // Save edited shop
+        updateShop({ shopId: selectedItem._id, shopData: updatedShopData })
+        setTimeout(() => {
+          refetchShops()
+        }, 3000);
+      } else if (currentTab === 2) {
+        // Save edited order
+        updateOrder({ orderId: selectedItem._id, orderData: updatedOrderData })
+        setTimeout(() => {
+          refetchOrders()
+        }, 3000);
+      }
+      handleCloseDialog();
+    } catch (error) {
+      console.error('Error saving changes:', error);
+    }
+  };
+
+  const handleDeleteItem = (id) => {
+    // Delete item logic (to be implemented)
+    console.log(`Delete item with ID ${id}`);
+  };
+
+
 
   const handleRemoveProduct = (product) => {
     deleteProduct({
@@ -126,6 +116,19 @@ const Assets = () => {
     setTimeout(() => {
       refetchOrders()
     }, 3000);
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'pending':
+        return 'red';
+      case 'onway':
+        return 'goldenrod'; // You can use 'golden' if you want a more precise golden color
+      case 'delivered':
+        return 'green';
+      default:
+        return 'inherit'; // fallback to default color
+    }
   };
 
 
@@ -160,7 +163,7 @@ const Assets = () => {
                     <TableCell>{item.price}</TableCell>
                     <TableCell title={item.description}>{item.description.substring(0, 30)}...</TableCell>
                     <TableCell>
-                      <Button onClick={() => handleEditItem(item)} variant="outlined" color="primary">Edit</Button>
+                      <Button className="normal_btn" onClick={() => handleEditItem(item)} variant="outlined" color="primary">Edit</Button>
                       <IconButton onClick={() => handleRemoveProduct(item)} color="error"><DeleteIcon /></IconButton>
                     </TableCell>
                   </TableRow>
@@ -189,7 +192,7 @@ const Assets = () => {
                     <TableCell>{item.location}</TableCell>
                     <TableCell>{item.rating}</TableCell>
                     <TableCell>
-                      <Button onClick={() => handleEditItem(item)} variant="outlined" color="primary">Edit</Button>
+                      <Button className="normal_btn" onClick={() => handleEditItem(item)} variant="outlined" color="primary">Edit</Button>
                       <IconButton onClick={() => handleRemoveShop(item._id)} color="error"><DeleteIcon /></IconButton>
                     </TableCell>
                   </TableRow>
@@ -203,9 +206,8 @@ const Assets = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ID</TableCell>
                   <TableCell>Order ID</TableCell>
-                  <TableCell>Products</TableCell>
+                  <TableCell>Status</TableCell>
                   <TableCell>Total Price</TableCell>
                   <TableCell>User ID</TableCell>
                   <TableCell>Actions</TableCell>
@@ -214,13 +216,12 @@ const Assets = () => {
               <TableBody>
                 {orders && orders.map((item, index) => (
                   <TableRow key={index}>
-                    <TableCell>{item.id}</TableCell>
                     <TableCell>{item.orderId}</TableCell>
-                    <TableCell>{item.products?.join(', ')}</TableCell>
+                    <TableCell style={{ color: getStatusColor(item.status) }}>{item.status}</TableCell>
                     <TableCell>{item.totalPrice}</TableCell>
                     <TableCell>{item.userId}</TableCell>
                     <TableCell>
-                      <Button onClick={() => handleEditItem(item)} variant="outlined" color="primary">Edit</Button>
+                      <Button className="normal_btn" onClick={() => handleEditItem(item)} variant="outlined" color="primary">Edit</Button>
                       <IconButton onClick={() => handleRemoveOrder(item._id)} color="error"><DeleteIcon /></IconButton>
                     </TableCell>
                   </TableRow>
@@ -240,33 +241,55 @@ const Assets = () => {
               {/* Render form fields for editing the selected item */}
               {currentTab === 0 && (
                 <>
-                  <TextField label="Name" fullWidth defaultValue={selectedItem.name} />
-                  <TextField label="Category" fullWidth defaultValue={selectedItem.category} />
-                  <TextField label="Price" fullWidth defaultValue={selectedItem.price} />
-                  <TextField label="Description" fullWidth defaultValue={selectedItem.description} />
+                  <TextField
+                    onChange={e => setUpdatedProductData({ ...updatedProductData, name: e.target.value })}
+                    label="Name" fullWidth defaultValue={selectedItem.name} />
+                  <TextField
+                    onChange={e => setUpdatedProductData({ ...updatedProductData, category: e.target.value })}
+                    label="Category" fullWidth defaultValue={selectedItem.category} />
+                  <TextField
+                    onChange={e => setUpdatedProductData({ ...updatedProductData, price: e.target.value })}
+                    label="Price" fullWidth defaultValue={selectedItem.price} />
+                  <TextField
+                    onChange={e => setUpdatedProductData({ ...updatedProductData, description: e.target.value })}
+                    label="Description" fullWidth defaultValue={selectedItem.description} />
                 </>
               )}
               {currentTab === 1 && (
                 <>
-                  <TextField label="Name" fullWidth defaultValue={selectedItem.name} />
-                  <TextField label="Location" fullWidth defaultValue={selectedItem.location} />
-                  <TextField label="Rating" fullWidth defaultValue={selectedItem.rating} />
+                  <TextField
+                    onChange={(e) => setUpdatedShopData({ ...updatedShopData, name: e.target.value })}
+                    label="Name" fullWidth defaultValue={selectedItem.name} />
+                  <TextField
+                    onChange={(e) => setUpdatedShopData({ ...updatedShopData, location: e.target.value })}
+                    label="Location" fullWidth defaultValue={selectedItem.location} />
+                  <TextField
+                    onChange={(e) => setUpdatedShopData({ ...updatedShopData, rating: e.target.value })}
+                    label="Rating" fullWidth defaultValue={selectedItem.rating} />
                 </>
               )}
               {currentTab === 2 && (
                 <>
-                  <TextField label="Order ID" fullWidth defaultValue={selectedItem.orderId} />
-                  <TextField label="Products" fullWidth defaultValue={selectedItem.products?.join(', ')} />
-                  <TextField label="Total Price" fullWidth defaultValue={selectedItem.totalPrice} />
-                  <TextField label="User ID" fullWidth defaultValue={selectedItem.userId} />
+                  <TextField
+                    onChange={(e) => setUpdatedOrderData({ ...updatedOrderData, status: e.target.value })}
+                    label="Status" fullWidth defaultValue={selectedItem.status} />
+                  <TextField
+                    onChange={(e) => setUpdatedOrderData({ ...updatedOrderData, address: e.target.value })}
+                    label="Address" fullWidth defaultValue={selectedItem.address} />
+                  <TextField
+                    onChange={(e) => setUpdatedOrderData({ ...updatedOrderData, totalPrice: e.target.value })}
+                    label="Total Price" fullWidth defaultValue={selectedItem.totalPrice} />
+                  <TextField
+                    onChange={(e) => setUpdatedOrderData({ ...updatedOrderData, phone: e.target.value })}
+                    label="Phone" fullWidth defaultValue={selectedItem.phone} />
                 </>
               )}
             </Box>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleCloseDialog} variant="contained" color="primary">Save</Button>
+          <Button className="normal_btn" onClick={handleCloseDialog}>Cancel</Button>
+          <Button className="normal_btn" onClick={handleSaveChanges} variant="contained" color="primary">Save</Button>
         </DialogActions>
       </Dialog>
     </Box>

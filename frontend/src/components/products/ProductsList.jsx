@@ -13,7 +13,7 @@ const ProductList = ({products}) => {
       {products.map((product) => (
         <div
           key={product._id}
-          className="max-w-xs rounded overflow-hidden shadow-lg m-4 transform transition-transform hover:scale-105 cursor-pointer"
+          className="max-w-xs rounded min-w-[300px] overflow-hidden shadow-lg m-4 transform transition-transform hover:scale-105 cursor-pointer"
           onClick={() => gotoProduct(product._id)}
         >
           <img

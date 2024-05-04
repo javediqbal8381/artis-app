@@ -6,6 +6,8 @@ import { removeFromCart, storecheckoutProductsInfo } from '../redux/slices/cartS
 import CartItem from '../components/cart/CartItem';
 import { productsApi } from '../redux/api/productApi';
 import Loader from '../components/commen/Loader';
+import { Button } from '@mui/material';
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const Cart = () => {
     const navigate = useNavigate();
@@ -52,7 +54,6 @@ const Cart = () => {
         // update the state to see instent change
         // Navigate to cart page
         dispatch(removeFromCart(id));
-
     }
 
     const gotoCheckout = () => {
@@ -121,10 +122,18 @@ const Cart = () => {
 
     return (
         <Layout>
-            <div className="container mx-auto mt-8">
+             <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+            <div className="container mx-auto mt-8 min-h-screen">
                 <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
                 {cartItems.length === 0 ? (
-                    <p>Your cart is empty. <Link to="/products">Continue shopping</Link></p>
+                    <div className='h-72 flex items-center justify-center'>
+                        <p>Your cart is empty. <Link to="/products"><strong>Continue shopping</strong></Link></p>
+                    </div>
                 ) : (
                     <div className='w-[100%] sm:w-[50%]'>
                         {cartItems.map((item, index) => {
@@ -141,11 +150,12 @@ const Cart = () => {
                             )
                         })}
                         <div className="mt-8">
-                            <button onClick={gotoCheckout} className="bg-blue-500 normal_btn py-2 px-4 w-fit rounded-md hover:bg-blue-600">Proceed to Checkout</button>
+                            <Button onClick={gotoCheckout} className=" normal_btn bg-blue-500 normal_btn py-2 px-4 w-fit rounded-md hover:bg-blue-600">Proceed to Checkout</Button>
                         </div>
                     </div>
                 )}
             </div>
+            </motion.div>
         </Layout>
     );
 };

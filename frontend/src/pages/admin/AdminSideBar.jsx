@@ -2,14 +2,14 @@ import React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Analytics, Home, Logout, Settings } from '@mui/icons-material';
 import { BiUser } from 'react-icons/bi';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AdminSideBar = ({ tab, setTab }) => {
 
   const handleTabChange = (newTab) => {
     setTab(newTab);
   };
-const navigate = useNavigate()
+  const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
@@ -33,24 +33,29 @@ const navigate = useNavigate()
         <div className="p-4">
           <List>
             <ListItem button onClick={() => handleTabChange("home")} sx={{ mb: 6 }}>
+              <Link to={'/'}>
+                <img width={150} src="/logo.png" alt="" />
+              </Link>
+            </ListItem>
+            <ListItem style={{background: tab == "home" && "lightGrey"}} button onClick={() => handleTabChange("home")} sx={{ mb: 6 }}>
               <ListItemIcon>
                 <Home className="h-6 w-6" />
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem button onClick={() => handleTabChange("analytics")} sx={{ mb: 6 }}>
+            <ListItem style={{background: tab == "analytics" && "lightGrey"}} button onClick={() => handleTabChange("analytics")} sx={{ mb: 6 }}>
               <ListItemIcon>
                 <Analytics className="h-6 w-6" />
               </ListItemIcon>
               <ListItemText primary="Analytics" />
             </ListItem>
-            <ListItem button onClick={() => handleTabChange("settings")} sx={{ mb: 6 }}>
+            <ListItem style={{background: tab == "settings" && "lightGrey"}} button onClick={() => handleTabChange("settings")} sx={{ mb: 6 }}>
               <ListItemIcon>
                 <Settings className="h-6 w-6" />
               </ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
-            <ListItem button onClick={() => handleTabChange("users")} sx={{ mb: 6 }}>
+            <ListItem style={{background: tab == "users" && "lightGrey"}} button onClick={() => handleTabChange("users")} sx={{ mb: 6 }}>
               <ListItemIcon>
                 <BiUser className="h-6 w-6" />
               </ListItemIcon>

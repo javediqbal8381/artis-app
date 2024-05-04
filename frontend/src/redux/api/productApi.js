@@ -49,5 +49,12 @@ export const productsApi = createApi({
         body: data,
       }),
     }),
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `/products/${data.productId}`,
+        method: 'PUT',
+        body: data.updatedProductData,
+      }),
+    }),
   }),
 })

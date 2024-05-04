@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { usersApi } from '../../redux/api/userApi';
 import { Link, useNavigate } from 'react-router-dom';
+import { Button, TextField } from '@mui/material';
 
 function SignInComponent() {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
+  const [signIn, { isError, isLoading, data }] = usersApi.useSignInMutation();
+
+  if (data) {
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('userId', data.userId);
+    localStorage.setItem('userRole', data.role);
+    navigate('/');
+  }
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-const navigate = useNavigate()
-  const [signIn, { isError, isLoading, data }] = usersApi.useSignInMutation();
-  
-  if(data) {
-    localStorage.setItem('token',data.token);
-    localStorage.setItem('userId',data.userId);
-    localStorage.setItem('userRole',data.role)
 
-    navigate('/')
-  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     signIn(formData).unwrap();
@@ -27,54 +28,38 @@ const navigate = useNavigate()
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
       <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
         <h1 className="text-veryLarge text-db font-semibold text-center text-gray-800 mb-6">
-          Artis-app
+          ArtisanAvenue
         </h1>
-        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
-          Sign In
-        </h2>
+        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Sign In</h2>
         <form className="mt-8" onSubmit={handleSubmit}>
           <div className="flex flex-col mb-6">
-            <label
-              htmlFor="email"
-              className="text-sm text-gray-600 mb-2 transition duration-300"
-            >
-              Email
-            </label>
-            <input
+            <TextField
               type="email"
               id="email"
               name="email"
+              label="Email"
               value={formData.email}
               onChange={handleChange}
-              className="rounded-lg border shadow-sm py-2 px-3 text-gray-600 focus:outline-none focus:ring focus:ring-indigo-300 transition duration-300"
-              placeholder="Your email address"
+              fullWidth
+              variant="outlined"
             />
           </div>
           <div className="flex flex-col mb-6">
-            <label
-              htmlFor="password"
-              className="text-sm text-gray-600 mb-2 transition duration-300"
-            >
-              Password
-            </label>
-            <input
+            <TextField
               type="password"
               id="password"
               name="password"
+              label="Password"
               value={formData.password}
               onChange={handleChange}
-              className="rounded-lg border shadow-sm py-2 px-3 text-gray-600 focus:outline-none focus:ring focus:ring-indigo-300 transition duration-300"
-              placeholder="Your password"
+              fullWidth
+              variant="outlined"
             />
           </div>
-          <div className='w-full flex items-center justify-center '>
-          <button
-            type="submit"
-            className=" normal_btn"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Signing In...' : 'Sign In'}
-          </button>
+          <div className="w-full flex items-center justify-center">
+            <Button type="submit" className="normal_btn" disabled={isLoading}>
+              {isLoading ? 'Signing In...' : 'Sign In'}
+            </Button>
           </div>
         </form>
         <p className="mt-4 text-sm text-center text-gray-600">

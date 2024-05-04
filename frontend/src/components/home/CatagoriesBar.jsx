@@ -15,6 +15,7 @@ const CategoriesBar = () => {
                     backgroundColor: '#f3f4f6' // Set your desired background color
                 },
             }}
+            className='md:mt-8'
         >
             <List>
                 <ListItem disablePadding className="pl-5 p-2 w-full font-bold bg-lb">

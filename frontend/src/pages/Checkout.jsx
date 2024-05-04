@@ -170,7 +170,7 @@ const Checkout = ({ cartItems }) => {
                                     Selected Products
                                 </Typography>
                                 {/* Add your selected products display here */}
-                                <Button type="submit" variant="contained" color="primary" sx={{ mt: 4 }}>
+                                <Button className = "normal_btn" type="submit" variant="contained" color="primary" sx={{ mt: 4 }}>
                                     Place Order
                                 </Button>
                             </form>
@@ -185,7 +185,7 @@ const Checkout = ({ cartItems }) => {
                                         <p>Please provide the time the item to be picked up</p>
                                         <label for="birthday">Birthday:</label>
                                         <input type="date" id="birthday" name="birthday" />
-                                        <button type="submit" className="bg-blue-500 border-2 py-2 px-4 rounded-md hover:bg-blue-600 mt-4">Place Order</button>
+                                        <Button type="submit" className=" normal_btn bg-blue-500 border-2 py-2 px-4 rounded-md hover:bg-blue-600 mt-4">Place Order</Button>
                                     </div>
                                 }
                             </form>

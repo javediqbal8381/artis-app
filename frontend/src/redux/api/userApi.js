@@ -21,14 +21,14 @@ export const usersApi = createApi({
       }),
     }),
     editUserInfo: builder.mutation({
-      query: (userData) => ({
-        url: '/users/edit',
+      query: ({userId, userData}) => ({
+        url: `/users/${userId}/profile`,
         method: 'PUT',
         body: userData,
       }),
     }),
     getUserInfo: builder.query({
-      query: () => '/users/userinfo',
+      query: (userId) => `/users/${userId}/profile`,
     }),
     deleteUser: builder.mutation({
       query: (userId) => ({

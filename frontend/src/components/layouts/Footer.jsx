@@ -9,9 +9,9 @@ const Footer = () => {
       <Container>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" gutterBottom>About Artis</Typography>
+            <Typography variant="h6" gutterBottom>About ArtisanAvenue</Typography>
             <Typography variant="body1" align="justify" gutterBottom>
-              Artis is an online platform dedicated to promoting and showcasing various forms of art. We strive to provide a platform for artists from around the world to share their creativity with others. Our mission is to inspire and connect people through art, whether it's paintings, pottery, glasswork, home decor, or any other form of creative expression.
+              ArtisanAvenue is an online platform dedicated to promoting and showcasing various forms of art. We strive to provide a platform for artists from around the world to share their creativity with others. Our mission is to inspire and connect people through art, whether it's paintings, pottery, glasswork, home decor, or any other form of creative expression.
             </Typography>
           </Grid>
           <Grid item xs={12} md={3}>
@@ -71,7 +71,7 @@ const Footer = () => {
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="body2">
-              Copyright &copy; 2017 All Rights Reserved by <Link href="#">Artis</Link>.
+              Copyright &copy; 2017 All Rights Reserved by <Link href="#">ArtisanAvenue</Link>.
             </Typography>
           </Grid>
           <Grid item>

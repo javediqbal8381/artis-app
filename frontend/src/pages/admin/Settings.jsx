@@ -1,65 +1,88 @@
-import React from 'react';
-import { 
-  Button, 
-  Switch, 
-  FormControlLabel, 
-  TextField, 
-  Divider, 
-  Typography, 
-  Checkbox, 
-  FormGroup 
+import React, { useEffect, useState } from 'react';
+import {
+  Button,
+  TextField,
+  Divider,
+  Typography
 } from '@mui/material';
+import { usersApi } from '../../redux/api/userApi';
 
 const Settings = () => {
-  return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      {/* General Settings */}
-      <div className="mb-8">
-        <Typography variant="h4" className="mb-4">General Settings</Typography>
-        <Divider />
-        <FormGroup>
-          <FormControlLabel control={<Switch />} label="Dark Mode" />
-        </FormGroup>
-      </div>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-      {/* Account Settings */}
-      <div className="mb-8">
-        <Typography variant="h4" className="mb-4">Account Settings</Typography>
-        <Divider />
-        <TextField label="Username" fullWidth className="mb-4" />
-        <TextField label="Email" fullWidth className="mb-4" />
-        <TextField label="Password" type="password" fullWidth className="mb-4" />
-        <TextField label="Confirm Password" type="password" fullWidth className="mb-4" />
-        <Button variant="contained" color="primary" className="mr-4">Save Changes</Button>
-      </div>
+  const user = localStorage.getItem("userId")
+  const { data: userData, isError: getUserDataError } = usersApi.useGetUserInfoQuery(user);
+  const [editUser, { isError, isLoading, isSuccess }] = usersApi.useEditUserInfoMutation()
 
-      {/* Notification Settings */}
-      <div className="mb-8">
-        <Typography variant="h4" className="mb-4">Notification Settings</Typography>
-        <Divider />
-        <FormControlLabel control={<Checkbox />} label="Email Notifications" />
-        <FormControlLabel control={<Checkbox />} label="Push Notifications" />
-      </div>
+  useEffect(() => {
+    if (userData) {
+      setEmail(userData.email);
+    }
+  }, [userData])
 
-      {/* Admin Settings */}
-      <div className="mb-8">
-        <Typography variant="h4" className="mb-4">Admin Settings</Typography>
-        <Divider />
-        <FormGroup>
-          <FormControlLabel control={<Switch />} label="Admin Access" />
-        </FormGroup>
-      </div>
 
-      {/* About */}
-      <div>
-        <Typography variant="h4" className="mb-4">About</Typography>
-        <Divider />
-        <Typography variant="body1" className="mt-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis ante nec ligula pharetra, ac ultrices sapien pharetra.
-        </Typography>
-      </div>
+  const saveChanges = () => {
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    editUser({ userId: user, userData:{ email, password }})
+};
+return (
+  <div className="max-w-3xl mx-auto px-4 py-8">
+    {/* Account Settings */}
+    <div className="mb-8">
+      <Typography variant="h4" className="mb-4">Account Settings</Typography>
+      <Typography>
+        Enter to update admin info
+      </Typography>
+      <br />
+      <br />
+      <Divider />
+      <TextField
+        label="Email"
+        fullWidth
+        className="mb-4"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br />
+      <br />
+      <TextField
+        label="Password"
+        type="password"
+        fullWidth
+        className="mb-4"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <br />
+      <br />
+      <TextField
+        label="Confirm Password"
+        type="password"
+        fullWidth
+        className="mb-4"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        error={error !== ""}
+        helperText={error}
+      />
+      <br /><br />
+      <Button
+        className="mr-4 normal_btn"
+        variant="contained"
+        color="primary"
+        onClick={saveChanges}
+      >
+        Save Changes
+      </Button>
     </div>
-  );
+  </div>
+);
 }
 
 export default Settings;

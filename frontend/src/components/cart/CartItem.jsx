@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 
@@ -20,7 +21,7 @@ const CartItem = (props) => {
                     <FaPlus onClick={() => incrementQuantity(item._id)} className='cursor-pointer hover:scale-125' />
                     <FaMinus onClick={() => decrementQuantity(item._id)} className='cursor-pointer hover:scale-125' />
                 </div>
-                <button onClick={() => handleRemoveProduct(item._id)} className="text-red-500">Remove</button>
+                <Button  onClick={() => handleRemoveProduct(item._id)} className=" normal_btn text-red-500">Remove</Button>
             </div>
         </div>
     )

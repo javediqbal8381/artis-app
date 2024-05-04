@@ -5,6 +5,7 @@ import './layouts.css'
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { addtoCart } from '../../redux/slices/cartSlice';
+import { Button } from '@mui/material';
 
 const Navbar = () => {
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -68,10 +69,8 @@ const Navbar = () => {
 
   return (
     <div className='h-20 p-3 px-8 flex items-center justify-between'>
-      <Link to={'/'} className="logo_link">
-        <h3 className='text-mid'>
-          MyArtisApp
-        </h3>
+      <Link to={'/'}>
+       <img width={150} src="/logo.png" alt="" />
       </Link>
       <ul className='hidden sm:flex justify-between items-center w-[60%]'>
         <li className='nav_link'>
@@ -110,7 +109,7 @@ const Navbar = () => {
                   <Link to="/settings">Settings</Link>
                 </li>
                 <li onClick={logout} className="px-4 py-2 hover:bg-gray-100">
-                  <button >Logout</button>
+                  <Button className="normal_btn" >Logout</Button>
                 </li>
               </ul>
             </div>

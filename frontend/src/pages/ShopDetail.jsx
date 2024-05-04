@@ -1,48 +1,54 @@
-// ShopDetails.js
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { shops } from '../data/shops.json';
-import ProductList from '../components/products/ProductsList';
-import products from '../data/products.json'
-import Layout from '../components/layouts/Layout';
+import { Typography, CircularProgress, Container, Grid } from '@mui/material';
 import { shopsApi } from '../redux/api/shopsApi';
 import StartRatings from '../components/commen/StartRatings';
+import Layout from '../components/layouts/Layout';
+import ProductList from '../components/products/ProductsList';
 
 const ShopDetails = () => {
   const { shopId } = useParams();
 
-  const { data: shop, isSuccess, isLoading } = shopsApi.useGetAllShopProductsQuery(shopId)
-  console.log(shop)
-  if (!shop) {
-    return <div>Shop not found</div>;
+  const { data: shop, isSuccess, isLoading } = shopsApi.useGetAllShopProductsQuery(shopId);
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <CircularProgress />
+        </Container>
+      </Layout>
+    );
+  }
+
+  if (!isSuccess || !shop) {
+    return (
+      <Layout>
+        <Typography variant="h6">Shop not found</Typography>
+      </Layout>
+    );
   }
 
   const handleStarClick = (starIndex) => {
-
-  }
+    // Handle star click action here
+  };
 
   return (
     <Layout>
-      <div className="container mx-auto mt-8">
-        {
-          isLoading ?
-            <></> :
-            <>
-              <h2 className="text-3xl font-bold mb-4">{shop.name} Products</h2>
-              <p>{shop.description}</p>
-              <br />
-              <StartRatings
-                detail={"shop"}
-                rating={shop.rating}
-                handleStarClick={handleStarClick}
-              />
-              <br/>
-              <p>{shop.location}</p>
-              <p>{shop.hours}</p>
-              <ProductList products={shop.products} />
-            </>
-        }
-      </div>
+      <Container sx={{ mt: 8 }}>
+        <Typography variant="h3" gutterBottom>{shop.name} Products</Typography>
+        <Typography variant="body1">{shop.description}</Typography>
+        <StartRatings
+          detail="shop"
+          rating={shop.rating}
+          handleStarClick={handleStarClick}
+        />
+        <Typography variant="body2" gutterBottom>{shop.location}</Typography>
+        <Typography variant="body2" gutterBottom>{shop.hours}</Typography>
+        <Grid container spacing={2} sx={{ mt: 4 }}>
+          <ProductList products={shop.products} />
+        </Grid>
+      </Container>
     </Layout>
   );
 };

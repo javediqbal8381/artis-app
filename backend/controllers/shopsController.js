@@ -41,23 +41,44 @@ exports.createShop = async (req, res) => {
 
 // Update an existing shop
 exports.updateShop = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updatedShop = await Shop.findByIdAndUpdate(id, req.body, { new: true });
-    if (!updatedShop) {
-      return res.status(404).json({ message: 'Shop not found' });
+    try {
+        const { id } = req.params;
+        const { name, location, website, hours, rating, description, image, products, artisId } = req.body;
+
+        // Check if the shop exists
+        const existingShop = await Shop.findById(id);
+        if (!existingShop) {
+            return res.status(404).json({ message: 'Shop not found' });
+        }
+
+        // Update the shop fields
+        existingShop.name = name || existingShop.name;
+        existingShop.location = location || existingShop.location;
+        existingShop.website = website || existingShop.website;
+        existingShop.hours = hours || existingShop.hours;
+        existingShop.rating = rating || existingShop.rating;
+        existingShop.description = description || existingShop.description;
+        existingShop.image = image || existingShop.image;
+        existingShop.products = products || existingShop.products;
+        existingShop.artisId = artisId || existingShop.artisId;
+        existingShop.ratingAmount = existingShop.ratingAmount;
+
+        // Save the updated shop
+        const updatedShop = await existingShop.save();
+
+        res.json({ message: 'Shop updated successfully', shop: updatedShop });
+    } catch (error) {
+        console.error('Error updating shop:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-    res.json({ message: 'Shop updated successfully', shop: updatedShop });
-  } catch (error) {
-    console.error('Error updating shop:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
 };
+
 
 // Delete a shop
 exports.deleteShop = async (req, res) => {
   const { id } = req.params;
   try {
+    await Product.deleteMany({ shopId: id });
     const deletedShop = await Shop.findByIdAndDelete(id);
     if (!deletedShop) {
       return res.status(404).json({ message: 'Shop not found' });

@@ -1,20 +1,16 @@
 import React from 'react';
-import beads from '../../assets/beads.jpg';
-import woodenCrafts from '../../assets/clayCrafts.jpg';
-import clayCrafts from '../../assets/woodencrafts.jpg';
-
 
 const ShowCase = () => {
   return (
-    <div className="flex justify-center items-center flex-wrap min-h-[100vh] py-32">
-      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/3 mx-2 my-2">
-        <img src={beads} alt="Large" className="rounded-full shadow-lg w-full" />
-      </div>
-      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/3 mx-2 my-2">
-        <img src={woodenCrafts} alt="Mid" className="rounded-full shadow-lg w-full" />
-      </div>
-      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/3 mx-2 my-2">
-        <img src={clayCrafts} alt="Small" className="rounded-full shadow-lg w-full" />
+    <div className="flex hero_showcase justify-center items-center flex-wrap min-h-[100vh] py-32">
+
+      <video autoplay muted loop className='hero_showcase_video'>
+        <source src='https://res.cloudinary.com/ddnrxtthk/video/upload/v1714546255/artis-app/3064242-hd_1920_1080_24fps_pa87yj.mp4'/>
+      </video>
+      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/3 mx-2 my-2 text-white flex items-center justify-center">
+        <p className='md:text-veryLarge'>
+          The Art Center
+        </p>
       </div>
     </div>
   );

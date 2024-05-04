@@ -1,19 +1,27 @@
-import React from 'react'
-import Layout from '../components/layouts/Layout'
-import ShopsList from '../components/shops/ShopsList'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import Layout from '../components/layouts/Layout';
+import ShopsList from '../components/shops/ShopsList';
+import { Link } from 'react-router-dom';
+import { Container, Button } from '@mui/material';
 
 const Shops = () => {
   return (
     <Layout>
-      <div className='p-4'>
-        <div className='pl-28'>
-          <Link className='normal_btn' to='/artis-shops'>My Shops</Link>
-        </div>
+      <Container maxWidth="lg" style={{ textAlign: 'center', padding: '2rem' }}>
+        <h1 style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>Visit You Shops</h1>
+        <Button className = "normal_btn"
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/artis-shops"
+          style={{ marginBottom: '1rem' }}
+        >
+          My Shops
+        </Button>
         <ShopsList />
-      </div>
+      </Container>
     </Layout>
-  )
-}
+  );
+};
 
-export default Shops
+export default Shops;

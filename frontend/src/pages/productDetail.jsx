@@ -108,9 +108,9 @@ const ProductDetail = () => {
                                     />
                                     <br />
                                     <div className="flex gap-4">
-                                        <Button variant="outlined" onClick={() => handleAddToCart(product._id)}>Add to Cart</Button>
-                                        <Button variant="outlined" onClick={handleOrderNow}>Order Now</Button>
-                                        <Button variant="outlined" onClick={() => setIsOpen(true)}>Chat Now</Button>
+                                        <Button className = "normal_btn" variant="outlined" onClick={() => handleAddToCart(product._id)}>Add to Cart</Button>
+                                        {/* <Button className = "normal_btn" variant="outlined" onClick={handleOrderNow}>Order Now</Button> */}
+                                        <Button className = "normal_btn" variant="outlined" onClick={() => setIsOpen(true)}>Chat Now</Button>
                                     </div>
                                 </div>
                                 <div className="bg-white p-6 rounded-lg shadow-md mt-4">

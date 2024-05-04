@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import {usersApi} from '../../redux/api/userApi';
+import { usersApi } from '../../redux/api/userApi';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { Button, TextField } from '@mui/material';
 
 function SignUpComponent() {
   const [formData, setFormData] = useState({
@@ -11,18 +11,19 @@ function SignUpComponent() {
     mobile: '',
   });
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const [signUp, { isLoading }] = usersApi.useSignUpMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-const navigate = useNavigate();
-const [signUp, {isLoading}] = usersApi.useSignUpMutation();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await signUp(formData);
-      console.log(response)
+      console.log(response);
       if (response.error) {
         setError(response.error.data?.message);
       } else {
@@ -37,77 +38,65 @@ const [signUp, {isLoading}] = usersApi.useSignUpMutation();
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
       <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
-      <h1 className="text-veryLarge text-db font-semibold text-center text-gray-800 mb-6">
-          Artis-app
+        <h1 className="text-veryLarge text-db font-semibold text-center text-gray-800 mb-6">
+          ArtisanAvenue
         </h1>
         <h2 className="text-2xl font-semibold text-center text-gray-800">
           Create an Account
         </h2>
         <form className="mt-8" onSubmit={handleSubmit}>
           <div className="flex flex-col mb-2">
-            <label htmlFor="username" className="mb-2 text-sm text-gray-600">
-              Username
-            </label>
-            <input
+            <TextField
               type="text"
               id="username"
               name="username"
+              label="Username"
               value={formData.username}
               onChange={handleChange}
-              className="rounded-lg border shadow-sm py-2 px-3 text-gray-600 focus:outline-none focus:ring focus:ring-indigo-300"
-              placeholder="Your username"
+              fullWidth
+              variant="outlined"
             />
           </div>
           <div className="flex flex-col mb-2">
-            <label htmlFor="email" className="mb-2 text-sm text-gray-600">
-              Email
-            </label>
-            <input
+            <TextField
               type="email"
               id="email"
               name="email"
+              label="Email"
               value={formData.email}
               onChange={handleChange}
-              className="rounded-lg border shadow-sm py-2 px-3 text-gray-600 focus:outline-none focus:ring focus:ring-indigo-300"
-              placeholder="Your email address"
+              fullWidth
+              variant="outlined"
             />
           </div>
           <div className="flex flex-col mb-2">
-            <label htmlFor="mobile" className="mb-2 text-sm text-gray-600">
-              Mobile Number
-            </label>
-            <input
+            <TextField
               type="tel"
               id="mobile"
               name="mobile"
+              label="Mobile Number"
               value={formData.mobile}
               onChange={handleChange}
-              className="rounded-lg border shadow-sm py-2 px-3 text-gray-600 focus:outline-none focus:ring focus:ring-indigo-300"
-              placeholder="Your mobile number"
+              fullWidth
+              variant="outlined"
             />
           </div>
           <div className="flex flex-col mb-2">
-            <label htmlFor="password" className="mb-2 text-sm text-gray-600">
-              Password
-            </label>
-            <input
+            <TextField
               type="password"
               id="password"
               name="password"
+              label="Password"
               value={formData.password}
               onChange={handleChange}
-              className="rounded-lg border shadow-sm py-2 px-3 text-gray-600 focus:outline-none focus:ring focus:ring-indigo-300"
-              placeholder="Your password"
+              fullWidth
+              variant="outlined"
             />
           </div>
-          <div className='w-full flex items-center justify-center '>
-          <button
-            type="submit"
-            className=" normal_btn"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Signing Ip...' : 'Sign Up'}
-          </button>
+          <div className="w-full flex items-center justify-center">
+            <Button type="submit" className="normal_btn" disabled={isLoading}>
+              {isLoading ? 'Signing Up...' : 'Sign Up'}
+            </Button>
           </div>
         </form>
         <p className="mt-12 text-xs text-center text-gray-600">

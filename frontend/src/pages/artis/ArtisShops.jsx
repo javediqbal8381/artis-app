@@ -1,17 +1,17 @@
-// Shops.js
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { BsGeoAlt, BsClock, BsStarFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import StartRatings from '../../components/commen/StartRatings';
 import { shopsApi } from '../../redux/api/shopsApi';
-import Loader from '../../components/commen/Loader'
+import Loader from '../../components/commen/Loader';
 import Layout from '../../components/layouts/Layout';
-import { ordersApi } from '../../redux/api/orderApi';
+import { motion } from "framer-motion"; // Import Framer Motion
+import { useEffect } from 'react';
 
 const ArtisShops = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-  const [formData, setFormData] = React.useState({
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
     name: '',
     location: '',
     website: '',
@@ -21,7 +21,7 @@ const ArtisShops = () => {
     image: '',
     products: [],
     ratingAmount: 1,
-    artisId: localStorage.getItem('userId') // Assuming userId is stored in localStorage
+    artisId: localStorage.getItem('userId')
   });
 
   const handleChange = (e) => {
@@ -31,117 +31,98 @@ const ArtisShops = () => {
       [name]: value
     });
   };
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
   const gotoShop = (shopId) => {
-    navigate(`/artis-shop-detail/${shopId}`)
-  }
+    navigate(`/artis-shop-detail/${shopId}`);
+  };
   const userId = localStorage.getItem('userId');
-  const { isLoading, isError, data: shops } = shopsApi.useGetArtisShopsQuery(userId);
+  const { isLoading, isError, data: shops, refetch: refetchShops } = shopsApi.useGetArtisShopsQuery(userId);
 
-  const [createShop,{isError:isShopError,data:shopData,isLoading:isLoadingShopCreation}] = shopsApi.useCreateShopMutation()
+  const [createShop, { isError: isShopError, data: shopData, isLoading: isLoadingShopCreation }] = shopsApi.useCreateShopMutation();
 
-  const handleCreateShop = async (e) => {
-    e.preventDefault()
-    createShop(formData)
+  const handleCreateShop = async () => {
+    createShop(formData);
+    setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    if(shopData) {
+      refetchShops()
+    }
+  }, [shopData])
 
   return (
     <Layout>
-      <div className="container mx-auto mt-8">
+      <div className="container mx-auto mt-8 min-h-screen">
         <h2 className="text-3xl font-bold mb-4">Explore Online ArtisShops</h2>
-        <button className='normal_btn' onClick={() => setIsModalOpen(true)}>Create Shop</button>
+        <Button className = "normal_btn" color="primary" variant="contained" onClick={() => setIsModalOpen(true)}>Create Shop</Button>
 
-        {isModalOpen && (
-          <div className="inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-8 rounded-lg w-full max-w-md">
-              <h3 className="text-xl font-bold mb-4">Create New Shop</h3>
-              <form onSubmit={handleCreateShop} className="space-y-4">
-                <div className="flex flex-col">
-                  <label htmlFor="name" className="text-sm font-semibold mb-1">Name:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label htmlFor="location" className="text-sm font-semibold mb-1">Location:</label>
-                  <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label htmlFor="website" className="text-sm font-semibold mb-1">Website:</label>
-                  <input
-                    type="text"
-                    id="website"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label htmlFor="hours" className="text-sm font-semibold mb-1">Operating Hours:</label>
-                  <input
-                    type="text"
-                    id="hours"
-                    name="hours"
-                    value={formData.hours}
-                    onChange={handleChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label htmlFor="description" className="text-sm font-semibold mb-1">Description:</label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label htmlFor="image" className="text-sm font-semibold mb-1">Image URL:</label>
-                  <input
-                    type="text"
-                    id="image"
-                    name="image"
-                    value={formData.image}
-                    onChange={handleChange}
-                    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-400"
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="bg-red-500 py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-400"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-blue-500 normal_btn py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400"
-                  >
-                    Create Shop
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
+        <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <DialogTitle>Create New Shop</DialogTitle>
+          <DialogContent>
+            <form className="space-y-4">
+              <TextField
+                label="Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label="Location"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label="Website"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label="Operating Hours"
+                name="hours"
+                value={formData.hours}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label="Description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                variant="outlined"
+                multiline
+                rows={4}
+                fullWidth
+              />
+              <TextField
+                label="Image URL"
+                name="image"
+                value={formData.image}
+                onChange={handleChange}
+                variant="outlined"
+                fullWidth
+              />
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button className = "normal_btn" onClick={() => setIsModalOpen(false)} color="secondary">
+              Cancel
+            </Button>
+            <Button className = "normal_btn" onClick={handleCreateShop} color="primary" variant="contained">
+              Create Shop
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         {
           isLoading ?
@@ -151,7 +132,7 @@ const ArtisShops = () => {
                 <div onClick={() => gotoShop(shop._id)} key={shop._id} className="bg-white p-6 rounded-lg shadow-md cursor-pointer">
                   <img
                     className="w-full h-40 object-cover mb-4 rounded-md"
-                    src={shop.image}  // Assuming your images are in the 'images' folder
+                    src={shop.image}
                     alt={shop.name}
                   />
                   <h3 className="text-xl font-bold mb-2">{shop.name}</h3>

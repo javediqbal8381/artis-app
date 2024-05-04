@@ -6,21 +6,24 @@ const orderSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    products: {
-        type: Array,
-        required: true
-    },
+    products: [
+        
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Product',
+            }
+            
+    ],
     shopId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Shop'
+        ref: 'Shop',
     },
     totalPrice: {
-        type: Number,
-        required: true
+        type: String,
     },
     userId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     createdAt: {
         type: Date,
@@ -29,7 +32,15 @@ const orderSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    address: String,
+    status: {
+        type:String,
+        enum:["pending", "onWay", "delivered"],
+        default: "pending"
+    },
+    zip: String,
+    phone: String
 });
 
 const Order = mongoose.model('Order', orderSchema);

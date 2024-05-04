@@ -30,11 +30,11 @@ const ManageUsers = () => {
 
   const {data:users, isLoading: usersLoading, isError:UsersError, refetch: refetchUsers} = usersApi.useGetAllUsersQuery()
   const [deleteUser, { isError: isDeletingUserError, }] = usersApi.useDeleteUserMutation();
+  const [editUser, { isError, isLoading, isSuccess }] = usersApi.useEditUserInfoMutation()
 
   // Function to open dialog for editing user
-  const handleEditUser = (user) => {
-    setEditedUser(user);
-    setOpen(true);
+  const handleEditUser = (e, user) => {
+      editUser({ userId: user._id, userData:{ active: e.target.checked }})
   };
 
   // Function to close dialog
@@ -90,11 +90,10 @@ const ManageUsers = () => {
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.mobile}</TableCell>
                 <TableCell>
-                  <Switch checked={user.active} />
+                  <Switch onChange={(e) => handleEditUser(e, user)} checked={user.active} />
                 </TableCell>
                 <TableCell>
-                  <Button variant="outlined" color="primary" sx={{ mr: 1 }} onClick={() => handleEditUser(user)}>Edit</Button>
-                  <Button variant="outlined" color="error" onClick={() => handleDeleteUser(user._id)}>Delete</Button>
+                  <Button className = "normal_btn" variant="outlined" color="error" onClick={() => handleDeleteUser(user._id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -111,8 +110,8 @@ const ManageUsers = () => {
           <TextField label="Mobile" fullWidth value={editedUser ? editedUser.mobile : ''} onChange={(e) => setEditedUser({ ...editedUser, mobile: e.target.value })} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleUpdateUser} variant="contained" color="primary">Save</Button>
+          <Button className = "normal_btn" onClick={handleClose}>Cancel</Button>
+          <Button className = "normal_btn" onClick={handleUpdateUser} variant="contained" color="primary">Save</Button>
         </DialogActions>
       </Dialog>
 
@@ -125,8 +124,8 @@ const ManageUsers = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} variant="contained" color="error">Delete</Button>
+          <Button className = "normal_btn" onClick={handleCloseDeleteDialog}>Cancel</Button>
+          <Button className = "normal_btn" onClick={handleConfirmDelete} variant="contained" color="error">Delete</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -4,6 +4,7 @@ import { io } from 'socket.io-client'
 import { BsRecordCircle } from "react-icons/bs";
 import { AudioRecorder } from "react-audio-voice-recorder";
 import { FaMicrophone } from "react-icons/fa";
+import { Button } from "@mui/material";
 
 
 
@@ -87,9 +88,10 @@ const ShopChat = ({ isOpen, setIsOpen, shopId }) => {
       import.meta.env.VITE_APP_CLOUDINARY_UPLOAD_PRESET
     );
     data.append("cloud_name", import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME);
-    data.append("folder", "artis-app");
+    data.append("folder", "ArtisanAvenue");
 
     try {
+      setValue("")
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME}/video/upload`,
         {
@@ -137,7 +139,6 @@ const ShopChat = ({ isOpen, setIsOpen, shopId }) => {
         receiverId: receiverId,
         text: value
       })
-console.log("first")
       const msgData = {
         sender: shopId,
         text: value,
@@ -163,17 +164,15 @@ console.log("first")
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-      <div className="bg-lb rounded-lg w-96 p-4">
+      <div className="bg-lb rounded-3xl w-96 p-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">ShopChat</h2>
-          <button
+          <FiX
             onClick={toggleChat}
-            className="text-red-500 hover:text-red-700"
-          >
-            Close
-          </button>
+            style={{color:"white", cursor:"pointer"}}
+          />
         </div>
-        <div className="overflow-y-auto max-h-72">
+        <div className="overflow-y-scroll max-h-72 min-h-[200px]">
           {messages.map((message, index) => (
             <div
               key={index}
@@ -221,13 +220,13 @@ console.log("first")
                 // downloadOnSavePress={true}
                 downloadFileExtension="webm"
               />
-              <button onClick={() => setMessageType('text')} >cancel</button>
+              <Button className = "normal_btn" onClick={() => {setMessageType('text'); setValue("")}} >cancel</Button>
 
             </>
           }
-          <button onClick={sendMessage} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <Button onClick={sendMessage} className=" normal_btn ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Send
-          </button>
+          </Button>
         </div>
       </div>
     </div>

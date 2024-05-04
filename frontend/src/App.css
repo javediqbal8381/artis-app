@@ -42,10 +42,10 @@
   
 
 .normal_btn{
-    background-color: #a27745;
+    background-color: #a27745 !important;
     background:#a27745 !important ;
     padding: 10px 12px 6px 12px;
-    color: #ffffff;
+    color: #ffffff !important;
     border-radius: 8px;
     font-weight: bold;
     font-size: 14px;
@@ -94,6 +94,12 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+}
+
+.hero_showcase_video{
+  position: absolute;
+  z-index: -1;
+  margin-top: 130px;
 }
 
 .home_btn:before {

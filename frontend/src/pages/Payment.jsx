@@ -33,12 +33,12 @@ const Payment = () => {
 
     return (
         <Layout>
-            <div className="container mx-auto mt-8">
+            <div className="container mx-auto mt-8 mb-20">
                 <h2 className="text-2xl font-bold mb-4">Choose Payment Method</h2>
-                <div className="flex justify-between">
+                <div className="flex justify-between min-h-[170px]">
                     {
                         !pickFromStore &&
-                        <div className="w-1/3 border p-4 rounded-md cursor-pointer" onClick={() => handlePayment('cod')}>
+                        <div className="w-1/3 text-lb border p-4 rounded-md cursor-pointer" onClick={() => handlePayment('cod')}>
                             <BsCashCoin className="w-8 h-8 mb-2 mx-auto" />
                             <p className="text-center">Cash on Delivery</p>
                         </div>
