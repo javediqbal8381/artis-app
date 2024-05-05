@@ -17,7 +17,9 @@ import {
   DialogActions,
   TextField,
   IconButton,
-  Paper
+  Paper,
+  Select,
+  MenuItem
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { productsApi } from '../../redux/api/productApi'
@@ -270,9 +272,14 @@ const Assets = () => {
               )}
               {currentTab === 2 && (
                 <>
-                  <TextField
-                    onChange={(e) => setUpdatedOrderData({ ...updatedOrderData, status: e.target.value })}
-                    label="Status" fullWidth defaultValue={selectedItem.status} />
+                  <Select fullWidth defaultValue={selectedItem.status}
+                  onChange={(e) => setUpdatedOrderData({ ...updatedOrderData, status: e.target.value })}
+                  >
+                    <MenuItem value={selectedItem.status} disabled>Update Status</MenuItem>
+                    <MenuItem value="pending">pending</MenuItem>
+                    <MenuItem value="onWay">onWay</MenuItem>
+                    <MenuItem value="delivered">delivered</MenuItem>
+                  </Select>
                   <TextField
                     onChange={(e) => setUpdatedOrderData({ ...updatedOrderData, address: e.target.value })}
                     label="Address" fullWidth defaultValue={selectedItem.address} />

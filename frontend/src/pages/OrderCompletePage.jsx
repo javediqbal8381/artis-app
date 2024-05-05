@@ -8,49 +8,43 @@ const OrderCompletePage = () => {
     const addressInfo = JSON.parse(localStorage.getItem('addressInfo'));
     const [getProducts, { isError: isErrorProducts, isLoading: isLoadingProducts, data: moreProducts }] = productsApi.useGetProductsDetailListMutation();
 
-    const [saveOrder, { isError, isLoading, data:order }] = ordersApi.useSaveOrderMutation()
+    const [saveOrder, { isError, isLoading, data: order, isSuccess: ordersSucceed }] = ordersApi.useSaveOrderMutation()
 
     useEffect(() => {
         getProducts(orderData?.productIds);
     }, [])
 
-    console.log(orderData)
-
     useEffect(() => {
-      if(orderData && moreProducts){
-        const order = {
-            products: orderData.productIds,
-            totalPrice: orderData.totalPrice,
-            userId: orderData.userId,
-            shopId: moreProducts[0].shopId,
-            address: addressInfo.address,
-            status: "pending",
-            phone: addressInfo.phone,
-            zip: addressInfo.zip 
+        if (orderData && moreProducts) {
+            const order = {
+                products: orderData.productIds,
+                totalPrice: orderData.totalPrice,
+                userId: orderData.userId,
+                shopId: moreProducts[0].shopId,
+                address: addressInfo.address,
+                status: "pending",
+                phone: addressInfo.phone,
+                zip: addressInfo.zip
+            }
+            saveOrder(order)
         }
-        saveOrder(order)
-      }
     }, [moreProducts])
 
     const handleRemoveAllProducts = () => {
-            // Get current cart items from cookie
-            const existingCartItems = document.cookie.split(';').find(cookie => cookie.trim().startsWith('cartItems='));
-            const cartItems = existingCartItems ? JSON.parse(existingCartItems.split('=')[1]) : [];
-            // console.log(id, cartItems)
-            const itemRemoved = cartItems?.filter(item => item !== item)
-            // Update cartItems in cookie
-            document.cookie = `cartItems=${JSON.stringify(itemRemoved)};max-age=604800;path=/`; // Max age set to 1 week (604800 seconds)
-            // update the state to see instent change
-            // Navigate to cart page
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
     }
 
     useEffect(() => {
-        if(order && order._id) {
-            localStorage.removeItem("orderData");
-            localStorage.removeItem("addressInfo");
-            handleRemoveAllProducts();
-        }
-    },[order])
+        localStorage.removeItem("orderData");
+        localStorage.removeItem("addressInfo");
+        handleRemoveAllProducts();
+    }, [ordersSucceed])
 
     return (
         <div className="bg-gray-100 min-h-screen flex justify-center items-center">
@@ -69,11 +63,11 @@ const OrderCompletePage = () => {
                         <div className="flex justify-between items-center">
                             <span className="font-semibold">Products:</span>
                             {
-                                moreProducts && orderData && moreProducts.map ((p, i) => {
-                                   if(orderData?.productIds?.includes(p?._id)) {
-                                    return <><br />{i} - {p.name}</>
-                                   }
-                                   else return
+                                moreProducts && orderData && moreProducts.map((p, i) => {
+                                    if (orderData?.productIds?.includes(p?._id)) {
+                                        return <><br />{i} - {p.name}</>
+                                    }
+                                    else return
                                 })
                             }
                         </div>

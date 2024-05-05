@@ -4,8 +4,8 @@ const { Safepay } = require('@sfpy/node-sdk')
 
 const safepay = new Safepay({
     environment: 'sandbox',
-    apiKey: 'sec_41d4ee2c-f14b-4014-8d62-161012b2c034',
-    v1Secret: 'f94cd00834086c95cf0a4a6b442e50269f621ad7bcb38526be67e92da798086b',
+    apiKey: process.env.SAFEPAY_APIKEY,
+    v1Secret: process.env.SAFEPAY_SECRET,
     webhookSecret: 'foo'
 })
 
